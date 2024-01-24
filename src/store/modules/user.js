@@ -5,13 +5,12 @@ const userModule = {
   },
   mutations: {
     setUser(state, user) {
-      state.user = user;
-      console.log(state.user,1111)
+      state.user = user
     },
   },
   getters: {
-    getUser: (state) => state.user,
+    getUser: state => state.user,
   },
-};
+}
 
-export default userModule;
+export default userModule

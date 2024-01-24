@@ -18,6 +18,33 @@ export const routes = [
     beforeEnter: requiredAuth(),
     children: [
       {
+        path: 'collections',
+        component: () => import('@/views/collections/collection-view.vue'),
+        children: [
+          {
+            path: '',
+            name: '/',
+            component: () => import('@/views/collections/collection-table.vue'),
+          },
+
+          // {
+          //   path: 'add',
+          //   name: 'add',
+          //   component: () => import('@/views/collections/create-collection.vue'),
+          // },
+          // {
+          //   path: ':collection/update',
+          //   name: 'update',
+          //   component: () => import('@/views/collections/update-collection.vue'),
+          // },
+        ],
+      },
+      {
+        path: 'items',
+        name: 'items',
+        component: () => import('@/views/items/item-view.vue'),
+      },
+      {
         path: 'dashboard',
         component: () => import('@/pages/dashboard.vue'),
       },

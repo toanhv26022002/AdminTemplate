@@ -1,4 +1,4 @@
-import BaseApi from "./BaseApi";
+import BaseApi from "./BaseApi"
 
 class Api extends BaseApi {
   //example
@@ -8,4 +8,4 @@ class Api extends BaseApi {
    
 }
 
-export default new Api();
+export default new Api()
