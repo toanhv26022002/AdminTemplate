@@ -1,8 +1,21 @@
+import { requiredAuth } from '../middleware/auth'
+
 export const routes = [
   { path: '/', redirect: '/dashboard' },
   {
+    path: "/login-by-token",
+    name: "loginByToken",
+    component: () => import("@/pages/loginByToken.vue"),
+  },
+  {
+    path: "/403",
+    component: () => import("@/pages/[...error].vue"),
+    name: "forbidden",
+  },
+  {
     path: '/',
     component: () => import('@/layouts/default.vue'),
+    beforeEnter: requiredAuth(),
     children: [
       {
         path: 'dashboard',
@@ -34,22 +47,5 @@ export const routes = [
       },
     ],
   },
-  {
-    path: '/',
-    component: () => import('@/layouts/blank.vue'),
-    children: [
-      {
-        path: 'login',
-        component: () => import('@/pages/login.vue'),
-      },
-      {
-        path: 'register',
-        component: () => import('@/pages/register.vue'),
-      },
-      {
-        path: '/:pathMatch(.*)*',
-        component: () => import('@/pages/[...error].vue'),
-      },
-    ],
-  },
+ 
 ]

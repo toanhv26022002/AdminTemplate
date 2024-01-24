@@ -1,60 +1,60 @@
 <script setup>
-import { useTheme } from 'vuetify'
-import misc404 from '@images/pages/404.png'
+import { goToLogin, logout } from '@/plugins/middleware/auth'
 import miscMaskDark from '@images/pages/misc-mask-dark.png'
 import miscMaskLight from '@images/pages/misc-mask-light.png'
-import tree from '@images/pages/tree.png'
-
+import { useTheme } from 'vuetify'
 const vuetifyTheme = useTheme()
 
 const authThemeMask = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? miscMaskLight : miscMaskDark
 })
+const loginAgain = async () => {
+  await logout()
+  goToLogin()
+}
+const goToEofactory = () => {
+  window.location.href = config.url_eofactory
+}
 </script>
 
 <template>
   <div class="misc-wrapper">
     <ErrorHeader
-      status-code="404"
-      title="Page Not Found ⚠️"
-      description="We couldn't find the page you are looking for."
+      status-code="403"
+      title="Access Denied ⚠️"
+      description="You do not have permission to access this resource"
     />
 
     <!-- 👉 Image -->
-    <div class="misc-avatar w-100 text-center">
-      <VImg
-        :src="misc404"
-        alt="Coming Soon"
-        :max-width="800"
-        class="mx-auto"
-      />
+
+    <div class="btn-container">
       <VBtn
-        to="/"
+        @click="loginAgain"
         class="mt-10"
       >
-        Back to Home
+        Use another account
+      </VBtn>
+      <VBtn
+        @click="goToEofactory"
+        class="mt-10"
+      >
+        Go to Eofactory
       </VBtn>
     </div>
-
-    <!-- 👉 Footer -->
-    <VImg
-      :src="tree"
-      class="misc-footer-tree d-none d-md-block"
-    />
-
-    <VImg
-      :src="authThemeMask"
-      class="misc-footer-img d-none d-md-block"
-    />
   </div>
 </template>
 
 <style lang="scss">
-@use "@core/scss/pages/misc.scss";
+@use '@core/scss/pages/misc.scss';
 
 .misc-footer-tree {
   inline-size: 15.625rem;
   inset-block-end: 3.5rem;
   inset-inline-start: 0.375rem;
+}
+.btn-container {
+  display: flex;
+  justify-content: space-around;
+  width: 20%;
 }
 </style>

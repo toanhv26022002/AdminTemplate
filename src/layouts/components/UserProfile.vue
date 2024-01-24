@@ -1,5 +1,17 @@
 <script setup>
-import avatar1 from '@images/avatars/avatar-1.png'
+import AuthApi from '@/api/AuthApi'
+import defaultAvatar from '@/assets/defaultAvatar.jpg'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
+const user = computed(() => {
+  return store.state.user.user
+})
+const handleLogout = async () => {
+  await AuthApi.logout()
+  AuthApi.deleteToken()
+  location.reload()
+}
 </script>
 
 <template>
@@ -16,7 +28,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
       color="primary"
       variant="tonal"
     >
-      <VImg :src="avatar1" />
+      <VImg :src="user.avatar || defaultAvatar" />
 
       <!-- SECTION Menu -->
       <VMenu
@@ -41,76 +53,21 @@ import avatar1 from '@images/avatars/avatar-1.png'
                     color="primary"
                     variant="tonal"
                   >
-                    <VImg :src="avatar1" />
+                    <VImg :src="user.avatar || defaultAvatar" />
                   </VAvatar>
                 </VBadge>
               </VListItemAction>
             </template>
 
-            <VListItemTitle class="font-weight-semibold">
-              John Doe
-            </VListItemTitle>
-            <VListItemSubtitle>Admin</VListItemSubtitle>
+            <VListItemTitle class="font-weight-semibold"> {{ user.first_name + ' ' + user.last_name }} </VListItemTitle>
+            <VListItemSubtitle>{{ user.username }}</VListItemSubtitle>
           </VListItem>
           <VDivider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="ri-user-line"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Profile</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Settings -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="ri-settings-4-line"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Settings</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Pricing -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="ri-money-dollar-circle-line"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Pricing</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 FAQ -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="ri-question-line"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>FAQ</VListItemTitle>
-          </VListItem>
-
-          <!-- Divider -->
-          <VDivider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <VListItem @click="handleLogout">
             <template #prepend>
               <VIcon
                 class="me-2"
