@@ -1,5 +1,5 @@
 <script setup>
-import Footer from '@/layouts/components/Footer.vue'
+
 import NavItems from '@/layouts/components/NavItems.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
@@ -23,14 +23,6 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
         
         <VSpacer />
 
-        <IconBtn
-          class="me-2"
-          href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <VIcon icon="ri-github-fill" />
-        </IconBtn>
 
         <IconBtn class="me-2">
           <VIcon icon="ri-notification-line" />
