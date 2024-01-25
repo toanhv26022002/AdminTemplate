@@ -1,8 +1,8 @@
 <script setup>
-import { goToLogin, logout } from '@/plugins/middleware/auth'
-import miscMaskDark from '@images/pages/misc-mask-dark.png'
-import miscMaskLight from '@images/pages/misc-mask-light.png'
-import { useTheme } from 'vuetify'
+import { goToLogin, logout } from '@/plugins/middleware/auth';
+import miscMaskDark from '@images/pages/misc-mask-dark.png';
+import miscMaskLight from '@images/pages/misc-mask-light.png';
+import { useTheme } from 'vuetify';
 const vuetifyTheme = useTheme()
 
 const authThemeMask = computed(() => {
@@ -30,13 +30,13 @@ const goToEofactory = () => {
     <div class="btn-container">
       <VBtn
         @click="loginAgain"
-        class="mt-10"
+        class="mt-10 w-80"
       >
         Use another account
       </VBtn>
       <VBtn
         @click="goToEofactory"
-        class="mt-10"
+        class="mt-10 w-80"
       >
         Go to Eofactory
       </VBtn>
@@ -54,7 +54,7 @@ const goToEofactory = () => {
 }
 .btn-container {
   display: flex;
-  justify-content: space-around;
-  width: 20%;
+  justify-content: space-between;
+  width: 400px;
 }
 </style>
