@@ -32,11 +32,11 @@ export const routes = [
             name: 'add',
             component: () => import('@/views/collections/create-collection.vue'),
           },
-          // {
-          //   path: ':collection/update',
-          //   name: 'update',
-          //   component: () => import('@/views/collections/update-collection.vue'),
-          // },
+          {
+            path: ':collection/update',
+            name: 'update',
+            component: () => import('@/views/collections/update-collection.vue'),
+          },
         ],
       },
       {

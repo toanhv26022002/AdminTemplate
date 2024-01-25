@@ -1,7 +1,7 @@
 <template>
   <div class="column">
     <!-- aws endpoint, access key, secretkey, bucket -->
-    <div class="row">
+    <div class="field-container">
       <!-- Platform -->
       <v-select
         class="row"
@@ -88,7 +88,7 @@
         </template>
       </v-text-field>
     </div>
-    <div class="row">
+    <div class="field-container">
       <!-- ID -->
       <v-text-field
         v-model="dataCollection.id"
@@ -224,7 +224,7 @@
         </template>
       </v-textarea>
     </div>
-    <div class="row">
+    <div class="field-container">
       <!-- Keywords -->
       <v-combobox
         v-model="dataCollection.keywords"
@@ -868,15 +868,16 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding: 16px;
 }
 
 .row {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  /* margin-left: 10px; */
+  /* margin-right: 10px; */
+  margin: 8px 0;
   height: max-content;
 }
 
@@ -884,9 +885,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 40px;
+  margin: 8px;
 }
 
 .btnSave {

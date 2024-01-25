@@ -2,9 +2,9 @@
   <div class="header">
     <div class="d-flex flex-row align-center">
       <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
-      <h1>{{ $t("Create Collection") }}</h1>
+      <h1>{{ $t("Update Collection") }}</h1>
     </div>
-    <VSwitch
+    <v-switch
       v-model="showEditor"
       class="btnChange"
       color="primary"
@@ -12,12 +12,12 @@
       value="true"
       @change="change"
       hide-details
-    />
-    <v-btn class="btnSave" color="primary" @click="save">{{ $t("Create") }}</v-btn>
+    ></v-switch>
+    <v-btn class="btnSave" color="primary" @click="save">{{ $t("Update") }}</v-btn>
   </div>
   <v-card class="card">
     <template v-if="showEditor">
-      <!-- <div class="container_swap">
+      <div class="container_swap">
         <input class="div_left" type="checkbox" v-model="lineNumbers" /> Linenumbers
         <v-switch
           class="div_right"
@@ -28,7 +28,8 @@
           @change="changeBackground"
           hide-details
         ></v-switch>
-      </div> -->
+      </div>
+
       <vue-monaco-editor
         v-model:value="codeData"
         theme="vs-dark"
@@ -37,21 +38,21 @@
       />
     </template>
     <template v-else>
-      <CollectionForm></CollectionForm>
+      <CollectionForm :isUpdate="true"></CollectionForm>
     </template>
   </v-card>
+
   <ConfirmDialog
     :visible="isDialogConfirm"
     @visible-changed="handleDialogVisibilityChange"
     @cancel="handleCancel"
     @confirm="handleConfirm"
     title="Confirm"
-    content="Do you want to create this collection?"
+    content="Do you want to update this collection?"
     okButtonText="OK"
     width="400"
-    color="primary"
+    color="red"
   />
-  <!-- <CollectionForm @exchangeData="exchangeData" /> -->
 </template>
 
 <script>
@@ -59,12 +60,14 @@ import CollectionApi from "@/api/CollectionApi";
 import ConfirmDialog from "@/components/confirm-dialog/ConfirmDialog.vue";
 import { mapActions, mapGetters } from "vuex";
 import CollectionForm from "./collection-form.vue";
-
 export default {
   components: {
     CollectionForm,
     ConfirmDialog,
   },
+  // props:()=>{
+  //     id = defineProps(['id']);
+  // },
   data: () => ({
     options: {
       automaticLayout: true,
@@ -95,15 +98,18 @@ export default {
     },
   }),
 
-  created() {
-    this.$store.dispatch("resetForm");
+  async created() {
     this.codeData = JSON.stringify(this.dataCollection, null, 2);
+    this.fetchCollection();
   },
   computed: {
     ...mapGetters(["dataCollection"]),
   },
   methods: {
     ...mapActions(["saveData", "btnChange"]),
+    highlighter(codeData) {
+      return highlight(codeData, languages.js);
+    },
     change() {
       if (this.showEditor) {
         this.btnChange(this.dataCollection);
@@ -132,11 +138,15 @@ export default {
         });
       }
     },
+    async fetchCollection() {
+      const response = await CollectionApi.getCollection(this.$route.params.collection);
+      this.btnChange(response.data);
+      console.log(this.dataCollection);
+    },
     validate() {
       if (
-        (this.dataCollection.platform &&
-          this.dataCollection.platform.trim().length === 0) ||
-        this.dataCollection.platform == null
+        !this.dataCollection.platform ||
+        (this.dataCollection.platform && this.dataCollection.platform.trim().length === 0)
       ) {
         this.$store.dispatch("notify", {
           type: "error",
@@ -144,10 +154,9 @@ export default {
         });
         return false;
       }
-
       if (
-        (this.dataCollection.id && this.dataCollection.id.trim().length === 0) ||
-        this.dataCollection.id == null
+        this.dataCollection.id == null ||
+        (this.dataCollection.id && this.dataCollection.id.trim().length === 0)
       ) {
         this.$store.dispatch("notify", {
           type: "error",
@@ -156,6 +165,7 @@ export default {
         return false;
       }
       if (
+        !this.dataCollection.license ||
         (this.dataCollection.license && this.dataCollection.license.trim() == "") ||
         this.dataCollection.license == null
       ) {
@@ -166,9 +176,9 @@ export default {
         return false;
       }
       if (
+        !this.dataCollection.description ||
         (this.dataCollection.description &&
-          this.dataCollection.description.trim().length === 0) ||
-        this.dataCollection.description == null
+          this.dataCollection.description.trim().length === 0)
       ) {
         this.$store.dispatch("notify", {
           type: "error",
@@ -177,8 +187,8 @@ export default {
         return false;
       }
       if (
-        Object.keys(this.dataCollection.assets).length === 0 ||
-        !this.dataCollection.assets
+        !this.dataCollection.assets ||
+        Object.keys(this.dataCollection.assets).length === 0
       ) {
         this.$store.dispatch("notify", {
           type: "error",
@@ -186,20 +196,28 @@ export default {
         });
         return false;
       }
-      // if (Object.keys(this.dataCollection.item_assets).length === 0) {
-      //     this.$store.dispatch("notify", {
-      //         type: "error",
-      //         message: "Spatial BBox is required",
-      //     });
-      //     return false;
-      // }
-      // if (this.dataCollection.temporal==null) {
-      //     this.$store.dispatch("notify", {
-      //         type: "error",
-      //         message: "Temporal Interval is required",
-      //     });
-      //     return false;
-      // }
+      if (
+        !this.dataCollection.extent ||
+        !this.dataCollection.extent.spatial ||
+        !this.dataCollection.extent.spatial.bbox
+      ) {
+        this.$store.dispatch("notify", {
+          type: "error",
+          message: "Fields's spatial is required",
+        });
+        return false;
+      }
+      if (
+        !this.dataCollection.extent ||
+        !this.dataCollection.extent.temporal ||
+        !this.dataCollection.extent.temporal.interval
+      ) {
+        this.$store.dispatch("notify", {
+          type: "error",
+          message: "Fields's spatial is required",
+        });
+        return false;
+      }
 
       if (
         this.dataCollection.id &&
@@ -243,7 +261,11 @@ export default {
     },
     async handleConfirm() {
       try {
-        const response = await CollectionApi.createCollection(this.dataCollection);
+        const response = await CollectionApi.updateCollection(
+          this.dataCollection.id,
+          this.dataCollection
+        );
+        console.log(response);
         this.$router.back();
         this.isDialogConfirm = false;
         this.$store.dispatch("notify", {
@@ -261,11 +283,12 @@ export default {
         } else {
           this.$store.dispatch("notify", {
             type: "error",
-            message: "An error occurred while creating the collection",
+            message: "An error occurred while updating the collection",
           });
         }
       }
     },
+
     handleCancel() {
       this.isDialogConfirm = false;
     },
@@ -275,8 +298,8 @@ export default {
 
 <style lang="scss">
 .my-editor {
-  background: #2d2d2d;
-  color: #ccc;
+  background: #f2f5f8;
+  //color: #0c0820;
   height: calc(100vh - 300px);
   font-family: Fira data, Fira Mono, Consolas, Menlo, Courier, monospace;
   font-size: 14px;
@@ -296,7 +319,7 @@ h1 {
 .card {
   margin: 20px;
   margin-top: 5px !important;
-  //padding: 20px;
+  padding: 20px;
   overflow: auto;
   height: calc(100vh - 200px);
 }

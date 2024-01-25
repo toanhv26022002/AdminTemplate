@@ -86,8 +86,8 @@
 </template>
 
 <script setup>
-import ConfirmDialog from '@layouts/components/confirm-dialog/ConfirmDialog.vue';
-import { defineEmits, ref, watch } from 'vue';
+import ConfirmDialog from '@/components/confirm-dialog/ConfirmDialog.vue';
+import { ref, watch } from 'vue';
 const props = defineProps({
   headers: {
     type: Array,
@@ -181,8 +181,8 @@ defineExpose({ resetPagination })
 
 .v-data-table {
   text-wrap: nowrap;
+  margin-top: 20px;
+  flex-grow: 1;
 }
-/* .v-data-table .tbody::-webkit-scrollbar {
-  display: block;
-} */
+
 </style>

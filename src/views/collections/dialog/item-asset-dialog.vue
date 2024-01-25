@@ -79,7 +79,7 @@
 <script>
 import _ from "lodash";
 import { mapGetters } from "vuex";
-import RasterBandDialog from "./RasterBandDialog.vue";
+import RasterBandDialog from "./raster-band-dialog.vue";
 export default {
   components: {
     RasterBandDialog,
