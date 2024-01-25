@@ -57,7 +57,9 @@
           @prev="prev"
         />
         <div class="d-flex h-100 justify-end align-center">
-          <p style="margin-left: 10px">Items per page:</p>
+          <p style="margin-left: 10px">
+            Items per page:
+          </p>
           <div>
             <VSelect
               v-model="itemsPerPage"
@@ -68,26 +70,29 @@
               hide-details
             />
           </div>
-          <p style="margin: 0 10px">Total: {{ totalItems }}</p>
+          <p style="margin: 0 10px">
+            Total: {{ totalItems }}
+          </p>
         </div>
       </div>
     </template>
   </VDataTable>
   <ConfirmDialog
-      :visible="isDeleteDialogVisible"
-      @cancel="handleCancelDelete"
-      @confirm="handleConfirmDelete"
-      title="Delete Confirmation"
-      content="Are you sure you want to delete"
-      okButtonText="Delete"
-      width="400"
-      color="error"
-    />
+    :visible="isDeleteDialogVisible"
+    title="Delete Confirmation"
+    content="Are you sure you want to delete"
+    ok-button-text="Delete"
+    width="400"
+    color="error"
+    @cancel="handleCancelDelete"
+    @confirm="handleConfirmDelete"
+  />
 </template>
 
 <script setup>
 import ConfirmDialog from '@/components/confirm-dialog/ConfirmDialog.vue';
 import { ref, watch } from 'vue';
+
 const props = defineProps({
   headers: {
     type: Array,
@@ -125,9 +130,10 @@ const emit = defineEmits([
 
 const currentPage = ref(1)
 const tableHeight = ref('100%')
-const isDeleteDialogVisible = ref(false);
+const isDeleteDialogVisible = ref(false)
 const itemsPerPage = ref(10)
-const currentItem = ref(null);
+const currentItem = ref(null)
+
 const viewItem = item => {
   emit('viewItem', item)
 }
@@ -144,23 +150,26 @@ const resetPagination = () => {
   currentPage.value = 1
 }
 
-const editItem = (item) => {
+const editItem = item => {
  
-  emit("editItem", item);
-};
+  emit("editItem", item)
+}
 
-const deleteItem = (item) => {
-  currentItem.value = item;
-  isDeleteDialogVisible.value = true;
+const deleteItem = item => {
+  currentItem.value = item
+  isDeleteDialogVisible.value = true
   
-};
+}
+
 const handleCancelDelete = () => {
-  isDeleteDialogVisible.value = false;
+  isDeleteDialogVisible.value = false
 }
+
 const handleConfirmDelete = ()=>{
-  emit("deleteItem", currentItem.value);
-  isDeleteDialogVisible.value = false;
+  emit("deleteItem", currentItem.value)
+  isDeleteDialogVisible.value = false
 }
+
 watch(itemsPerPage, newVal => {
   emit('setItemsPerPage', newVal)
 })
@@ -184,5 +193,4 @@ defineExpose({ resetPagination })
   margin-top: 20px;
   flex-grow: 1;
 }
-
 </style>

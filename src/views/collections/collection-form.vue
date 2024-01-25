@@ -3,15 +3,14 @@
     <!-- aws endpoint, access key, secretkey, bucket -->
     <div class="field-container">
       <!-- Platform -->
-      <v-select
+      <VSelect
+        v-model="props.data.platform"
         class="row"
-        v-model="dataCollection.platform"
         :items="platforms"
         item-value="name"
         item-title="name"
         label="Platform"
         :placeholder="$t('Select a Platform')"
-        prepend-inner-icon="mdi-satellite-variant"
         filled
         background-color="#F1F9FF"
         color="#8CB9DC"
@@ -20,397 +19,437 @@
         :disabled="isUpdate"
       />
       <!-- aws endpoint -->
-      <v-text-field
-        v-model="dataCollection.s3_meta.endpoint"
+      <VTextField
+        v-model="props.data.s3_meta.endpoint"
         class="row"
         label="Aws Endpoint"
         variant="outlined"
         :disabled="isUpdate"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             <!-- Enter a title for your dataset. -->
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
       <!-- access key -->
-      <v-text-field
-        v-model="dataCollection.s3_meta.access_key"
+      <VTextField
+        v-model="props.data.s3_meta.access_key"
         class="row"
         :disabled="isUpdate"
         label="Access Key"
         variant="outlined"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             <!-- Enter a title for your dataset. -->
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
       <!-- secretkey -->
-      <v-text-field
+      <VTextField
+        v-model="props.data.s3_meta.secret_key"
         class="row"
-        v-model="dataCollection.s3_meta.secret_key"
         label="Secret Key"
         :disabled="isUpdate"
         variant="outlined"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             <!-- Enter a title for your dataset. -->
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
       <!-- bucket -->
-      <v-text-field
-        v-model="dataCollection.s3_meta.bucket"
+      <VTextField
+        v-model="props.data.s3_meta.bucket"
         class="row"
         label="Bucket"
         :disabled="isUpdate"
         variant="outlined"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             <!-- Enter a title for your dataset. -->
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
     </div>
     <div class="field-container">
       <!-- ID -->
-      <v-text-field
-        v-model="dataCollection.id"
+      <VTextField
+        v-model="props.data.id"
         class="row"
         :disabled="isUpdate"
         label="ID"
-        :rules="[rules.required, rules.nospaces, rules.nospecial_expect, rules.max255]"
+        :rules="[rules.required, rules.noSpaces, rules.noSpecialExpect, rules.max255]"
         variant="outlined"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             Enter ID for your dataset. Spaces and special characters are not allowed. We
             recommend an all lowercase, underscore seperated string.
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
       <!-- Title  -->
-      <v-text-field
+      <VTextField
+        v-model="props.data.title"
         class="row"
-        v-model="dataCollection.title"
         label="Title"
         :rules="[rules.max255]"
         variant="outlined"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             Enter a title for your dataset.
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
       <!-- Links -->
-      <v-combobox
+      <VCombobox
+        v-model="props.data.links"
         class="row"
-        v-model="dataCollection.links"
         label="Links"
         variant="outlined"
         multiple
         chips
         item-title="rel"
-        :closable-chips="true"
+        closable-chips
         readonly
         :rules="[rules.required]"
       >
-        <template v-slot:chip="data">
-          <v-chip
-            :key="data.index"
+        <template #chip="data">
+          <VChip
+            :key="index"
             v-bind="data"
             :model-value="data"
             size="small"
             closable
-            @click="updateLinkDialog(data.index, data.item.raw)"
             class="btn"
+            label
+            @click="updateLinkDialog(data.index, data.item.raw)"
             @click:close="removeLink(data.index)"
-            :label="true"
-          >
-          </v-chip>
+          />
         </template>
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
                 class="btn"
-                @click="addLinkDialog()"
                 v-bind="props"
-                icon="mdi-plus"
-              ></v-icon>
+                icon="ri-add-line"
+                @click="addLinkDialog"
+              />
             </template>
             List of Links describing the Collection.
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-combobox>
-
+      </VCombobox>
+      <!-- Keywords -->
+      <VCombobox
+        v-model="props.data.keywords"
+        label="Keywords"
+        variant="outlined"
+        multiple
+        class="row"
+      >
+        <template #chip="data">
+          <VChip
+            :key="props.data.index"
+            v-bind="data"
+            :model-value="data"
+            size="small"
+            closable
+            label
+            @click:close="removeKeyword(props.data.index)"
+          />
+        </template>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
+            </template>
+            List of keywords describing the Collection.
+          </VTooltip>
+        </template>
+      </VCombobox>
       <!-- License -->
-      <v-text-field
-        v-model="dataCollection.license"
-        :rules="[rules.required, rules.nospaces, rules.nospecial_expect, rules.max255]"
+      <VTextField
+        v-model="props.data.license"
+        :rules="[rules.required, rules.noSpaces, rules.noSpecialExpect, rules.max255]"
         class="row"
         label="License"
         variant="outlined"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             Enter a product license for your dataset. Spaces and special characters are
             not allowed.
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
       <!-- Short Description -->
-      <v-text-field
+      <VTextField
+        v-model="props.data.short_description"
         class="row"
-        v-model="dataCollection.short_description"
         label="Short Description"
         variant="outlined"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             Enter a short description for your dataset. Max 255 characters. Spaces,
             special characters, etc. are all allowed.
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-text-field>
+      </VTextField>
       <!-- Description -->
-      <v-textarea
+      <VTextarea
+        v-model="props.data.description"
         class="row"
-        v-model="dataCollection.description"
-        clearable
         label="Description"
         :rules="[rules.required]"
         clear-icon="mdi-close-circle"
         variant="outlined"
         rows="3"
       >
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
             </template>
             Enter a description for your dataset. Spaces, special characters, etc. are all
             allowed.
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-textarea>
+      </VTextarea>
     </div>
     <div class="field-container">
-      <!-- Keywords -->
-      <v-combobox
-        v-model="dataCollection.keywords"
-        label="Keywords"
-        variant="outlined"
-        multiple
-        class="row"
-      >
-        <template v-slot:chip="data">
-          <v-chip
-            :key="data.index"
-            v-bind="data"
-            :model-value="data"
-            size="small"
-            closable
-            @click:close="removeKeyword(data.index)"
-            :label="true"
-          >
-          </v-chip>
-        </template>
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon class="btn" v-bind="props" icon="mdi-help-circle-outline"></v-icon>
-            </template>
-            List of keywords describing the Collection.
-          </v-tooltip>
-        </template>
-      </v-combobox>
       <!-- Providers -->
-      <v-combobox
+      <VCombobox
+        v-model="props.data.providers"
         class="row"
-        v-model="dataCollection.providers"
         label="Providers"
         variant="outlined"
         multiple
         chips
         item-title="name"
-        :closable-chips="true"
+        closable-chips
         readonly
       >
-        <template v-slot:chip="data">
-          <v-chip
+        <template #chip="data">
+          <VChip
             :key="data.index"
             v-bind="data"
             :model-value="data"
             size="small"
             closable
-            @click="updateProviderDialog(data.index, data.item.raw)"
             class="btn"
+            label
+            @click="updateProviderDialog(data.index, data.item.raw)"
             @click:close="removeProvider(data.index)"
-            :label="true"
-          >
-          </v-chip>
+          />
         </template>
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
                 class="btn"
-                @click="addProviderDialog()"
                 v-bind="props"
-                icon="mdi-plus"
-              ></v-icon>
+                icon="ri-add-line"
+                @click="addProviderDialog"
+              />
             </template>
             <!-- List of keywords describing the Collection. -->
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-combobox>
+      </VCombobox>
       <!-- Extensions -->
-      <v-select
+      <VSelect
+        v-model="props.data.stac_extensions"
         chips
         label="Extensions"
-        v-model="dataCollection.stac_extensions"
         :items="extensions"
         item-text="label"
         item-value="value"
         item-title="label"
         variant="outlined"
         class="row"
-        :closable-chips="true"
+        closable-chips
         multiple
       >
-        <template v-slot:chip="data">
-          <v-chip
+        <template #chip="data">
+          <VChip
             :key="data.index"
             v-bind="data"
             :model-value="data"
             size="small"
             closable
+            label
             @click:close="removeExtension(data.index)"
-            :label="true"
-          >
-          </v-chip>
+          />
         </template>
-      </v-select>
+      </VSelect>
       <!-- Assets -->
-      <v-combobox
+      <VCombobox
+        v-model="assets"
         class="row"
-        v-model="collectionAssets"
         label="Assets"
         variant="outlined"
         multiple
         chips
         item-title="name"
-        :closable-chips="true"
+        closable-chips
         readonly
       >
-        <template v-slot:chip="data">
-          <v-chip
+        <template #chip="data">
+          <VChip
             :key="data.index"
             v-bind="data"
             :model-value="data"
             size="small"
             closable
-            @click="updateAssetDialog(data.item.raw)"
             class="btn"
+            label
+            @click="updateAssetDialog(data.item.raw)"
             @click:close="removeAsset(data.item.raw.name)"
-            :label="true"
-          >
-          </v-chip>
+          />
         </template>
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
                 class="btn"
-                @click="addAssetDialog()"
                 v-bind="props"
-                icon="mdi-plus"
-              ></v-icon>
+                icon="ri-add-line"
+                @click="addAssetDialog"
+              />
             </template>
             <!-- List of keywords describing the Collection. -->
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-combobox>
+      </VCombobox>
       <!-- Item Assets -->
-      <v-combobox
+      <VCombobox
+        v-if="hasItemAssetExt"
+        v-model="itemAssets"
         class="row"
-        v-model="collectionItemAssets"
         label="Item Assets"
         variant="outlined"
         multiple
         chips
         item-title="name"
-        :closable-chips="true"
+        closable-chips
         readonly
       >
-        <template v-slot:chip="data">
-          <v-chip
+        <template #chip="data">
+          <VChip
             :key="data.index"
             v-bind="data"
             :model-value="data"
             size="small"
             closable
-            @click="updateItemAssetDialog(data.item.raw)"
             class="btn"
+            label
+            @click="updateItemAssetDialog(data.item.raw)"
             @click:close="removeItemAsset(data.item.raw.name)"
-            :label="true"
-          >
-          </v-chip>
+          />
         </template>
-        <template v-slot:append-inner>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-icon
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
                 class="btn"
-                @click="addItemAssetDialog()"
                 v-bind="props"
-                icon="mdi-plus"
-              ></v-icon>
+                icon="ri-add-line"
+                @click="addItemAssetDialog"
+              />
             </template>
             <!-- List of keywords describing the Collection. -->
-          </v-tooltip>
+          </VTooltip>
         </template>
-      </v-combobox>
+      </VCombobox>
       <!-- Extents -->
       <div>
-        <v-card variant="outlined" class="row-card">
-          <v-card-text>
-            <v-card-title class="title"> Extent </v-card-title>
-            <v-card-text>
+        <VCard
+          variant="outlined"
+          class="row-card"
+        >
+          <VCardText>
+            <VCardTitle class="title">
+              Extent
+            </VCardTitle>
+            <VCardText>
               <div class="d-flex flex-row">
-                <div class="extent-field-title">Spatial bbox</div>
+                <div class="extent-field-title">
+                  Spatial bbox
+                </div>
                 <div class="d-flex flex-row bbox w-100">
-                  <v-text-field
+                  <VTextField
                     v-model="minX"
                     min="-180"
                     max="180"
@@ -419,21 +458,21 @@
                     variant="outlined"
                     :rules="[rules.required, rules.X]"
                   />
-                  <v-text-field
+                  <VTextField
                     v-model="minY"
                     :rules="[rules.required, rules.Y]"
                     label="Min y"
                     type="number"
                     variant="outlined"
                   />
-                  <v-text-field
+                  <VTextField
                     v-model="maxX"
                     :rules="[rules.required, rules.X]"
                     type="number"
                     label="Max x"
                     variant="outlined"
                   />
-                  <v-text-field
+                  <VTextField
                     v-model="maxY"
                     :rules="[rules.required, rules.Y]"
                     type="number"
@@ -442,413 +481,411 @@
                   />
                 </div>
               </div>
-            </v-card-text>
+            </VCardText>
             <!-- // -->
-            <v-card-text>
+            <VCardText>
               <div class="d-flex flex-row">
-                <div class="extent-field-title">Temporal</div>
-                <div class="d-flex flex-row bbox w-100">
-                  <v-text-field
+                <div class="extent-field-title">
+                  Temporal
+                </div>
+                <div class="d-flex flex-column temporal w-100">
+                  <!--
+                    <VTextField
                     v-model="dateStarted"
                     type="date"
-                    label="Date Started"
+                    label="Start Date"
                     variant="outlined"
-                  />
-                  <v-text-field
+                    />
+                    <VTextField
                     v-model="dateFinished"
                     type="date"
-                    label="Date Finished"
+                    label="End Date"
                     variant="outlined"
-                  />
+                    /> 
+                  -->
+                  <VTextField
+                    v-model="startDate"
+                    type="datetime-local"
+                    label="Start Date"
+                    variant="outlined"
+                  /> 
+                  <VTextField
+                    v-model="endDate"
+                    type="datetime-local"
+                    label="End Date"
+                    variant="outlined"
+                  />  
                 </div>
               </div>
-            </v-card-text>
-          </v-card-text>
-        </v-card>
+            </VCardText>
+          </VCardText>
+        </VCard>
       </div>
     </div>
   </div>
-  <ProviderDialog ref="providerDialog" @submit="updateProvider" />
-  <AssetDialog ref="assetDialog" @submit="updateAsset" />
-  <ItemAssetDialog ref="itemAssetDialog" @submit="updateItemAsset" />
-  <LinkDialog ref="linkDialog" @submit="updateLink" />
+  <ProviderDialog
+    ref="providerDialog"
+    @submit="updateProvider"
+  />
+  <AssetDialog
+    ref="assetDialog"
+    @submit="updateAsset"
+  />
+  <ItemAssetDialog
+    ref="itemAssetDialog"
+    @submit="updateItemAsset"
+  />
+  <LinkDialog
+    ref="linkDialog"
+    @submit="updateLink"
+  />
 </template>
-<script>
-import CollectionApi from "@/api/CollectionApi";
-import dataCollection from "@/store/modules/dataCollection";
-import moment from "moment";
-import { mapGetters } from "vuex";
-import AssetDialog from "./dialog/asset-dialog.vue";
-import ItemAssetDialog from "./dialog/item-asset-dialog.vue";
-import LinkDialog from "./dialog/link-dialog.vue";
-import ProviderDialog from "./dialog/provider-dialog.vue";
-export default {
-  components: {
-    ProviderDialog,
-    AssetDialog,
-    ItemAssetDialog,
-    LinkDialog,
+
+<script setup>
+import { defineProps, inject, ref } from 'vue'
+import AssetDialog from "./dialog/asset-dialog.vue"
+import ItemAssetDialog from "./dialog/item-asset-dialog.vue"
+import LinkDialog from "./dialog/link-dialog.vue"
+
+import CollectionApi from '@/api/CollectionApi'
+import moment from 'moment'
+import ProviderDialog from './dialog/provider-dialog.vue'
+
+const props = defineProps({
+  isUpdate: {
+    type: Boolean,
+    default: false,
   },
-  data: () => ({
-    keyword: "",
-    dialog: false,
-    value: "",
-    platforms: [],
-    dateStarted: null,
-    dateFinished: null,
-    rules: {
-      required: (value) => !!value || (value && value.length > 0) || "Required.",
-      max255: (value) =>
-        value === null ||
+  data: {
+    type: Object,
+    default: () => ({}),
+  },
+})
+
+const platforms = ref([])
+
+const store = inject('store')
+const keyword = ref('')
+const linkDialog = ref(null)
+const providerDialog = ref(null)
+const assetDialog = ref(null)
+const itemAssetDialog = ref(null)
+
+
+
+const rules = {
+  required: value => !!value || (value && value.length > 0) || "Required.",
+  max255: value =>
+    value === null ||
         (typeof value === "string" && value.length <= 255) ||
         value === "" ||
         "Max 255 characters",
-      nospaces: (value) => (value && !value.includes(" ")) || "No spaces",
-      nospecial: (value) =>
-        (value && !/[^a-zA-Z0-9]/.test(value)) || " No special characters",
-      nospecial_expect: (value) =>
-        /^[a-zA-Z0-9.\-_+]+$/.test(value) || "No special characters except .-+_",
-      X: (value) => (value <= 180 && value >= -180) || "X should be in range [-180,180]",
-      Y: (value) => (value <= 90 && value >= -90) || "Y should be in range [-90,90]",
-    },
-    selectKey: [],
-    extensions: [
-      {
-        label: "eo",
-        value: "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
-      },
-      {
-        label: "raster",
-        value: "https://stac-extensions.github.io/raster/v1.0.0/schema.json",
-      },
-      {
-        label: "view",
-        value: "https://stac-extensions.github.io/view/v1.0.0/schema.json",
-      },
-      {
-        label: "proj",
-        value: "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
-      },
-      {
-        label: "sar",
-        value: "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
-      },
-      {
-        label: "sat",
-        value: "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
-      },
-      {
-        label: "pointcloud",
-        value: "https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json",
-      },
-      {
-        label: "checksum",
-        value: "https://stac-extensions.github.io/checksum/v1.0.0/schema.json",
-      },
-      {
-        label: "datacube",
-        value: "https://stac-extensions.github.io/datacube/v1.0.0/schema.json",
-      },
-      {
-        label: "version",
-        value: "https://stac-extensions.github.io/version/v1.0.0/schema.json",
-      },
-      {
-        label: "label",
-        value: "https://stac-extensions.github.io/label/v1.0.0/schema.json",
-      },
-      {
-        label: "scientific",
-        value: "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
-      },
-      {
-        label: "pointcloud",
-        value: "https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json",
-      },
-      {
-        label: "checksum",
-        value: "https://stac-extensions.github.io/checksum/v1.0.0/schema.json",
-      },
-      {
-        label: "datacube",
-        value: "https://stac-extensions.github.io/datacube/v1.0.0/schema.json",
-      },
-      {
-        label: "version",
-        value: "https://stac-extensions.github.io/version/v1.0.0/schema.json",
-      },
-      {
-        label: "label",
-        value: "https://stac-extensions.github.io/label/v1.0.0/schema.json",
-      },
-    ],
-  }),
-  props: {
-    isUpdate: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  created() {
-    this.getPlatforms();
-    this.updateDate();
-  },
-  computed: {
-    ...mapGetters(["dataCollection"]),
-    collectionAssets: {
-      get() {
-        const assets = this.dataCollection.assets;
+  noSpaces: value => (value && !value.includes(" ")) || "No spaces",
+  noSpecial: value =>
+    (value && !/[^a-zA-Z0-9]/.test(value)) || " No special characters",
+  noSpecialExpect: value =>
+    /^[a-zA-Z0-9.\-_+]+$/.test(value) || "No special characters except .-+_",
+  X: value => (value <= 180 && value >= -180) || "X should be in range [-180,180]",
+  Y: value => (value <= 90 && value >= -90) || "Y should be in range [-90,90]",
+}
 
-        if (assets && Object.keys(assets).length > 0) {
-          return Object.keys(assets).map((key) => {
-            const value = assets[key];
-            return {
-              name: key,
-              ...value,
-            };
-          });
-        } else {
-          return [];
-        }
-      },
-    },
-    collectionItemAssets: {
-      get() {
-        const item_assets = this.dataCollection.item_assets;
+const fetchPlatforms = async () => {
+  const result = await CollectionApi.getPlatforms()
 
-        if (item_assets && Object.keys(item_assets).length > 0) {
-          return Object.keys(item_assets).map((key) => {
-            const value = item_assets[key];
-            return {
-              name: key,
-              ...value,
-            };
-          });
-        } else {
-          return [];
-        }
-      },
-    },
-    minX: {
-      get() {
-        if (this.dataCollection.extent) {
-          return this.dataCollection.extent.spatial.bbox[0][0];
-        }
-      },
-      set(value) {
-        this.dataCollection.extent.spatial.bbox[0][0] = Number(value);
-      },
-    },
-    minY: {
-      get() {
-        if (this.dataCollection.extent) {
-          return this.dataCollection.extent.spatial.bbox[0][1];
-        }
-      },
-      set(value) {
-        this.dataCollection.extent.spatial.bbox[0][1] = Number(value);
-      },
-    },
-    maxX: {
-      get() {
-        if (this.dataCollection.extent) {
-          return this.dataCollection.extent.spatial.bbox[0][2];
-        }
-      },
-      set(value) {
-        this.dataCollection.extent.spatial.bbox[0][2] = Number(value);
-      },
-    },
-    maxY: {
-      get() {
-        if (this.dataCollection.extent) {
-          return this.dataCollection.extent.spatial.bbox[0][3];
-        }
-      },
-      set(value) {
-        this.dataCollection.extent.spatial.bbox[0][3] = Number(value);
-      },
-    },
-  },
-  watch: {
-    dataCollection: {
-      handler(newValue, oldValue) {
-        this.dataCollection.s3_meta = this.dataCollection.s3_meta || {};
-      },
-      deep: true,
-    },
-    dateStarted: {
-      handler(newValue, oldValue) {
-        if (newValue != "") {
-          this.dataCollection.extent.temporal.interval[0][0] = moment(newValue)
-            .utc()
-            .format("YYYY-MM-DDTHH:mm:ss[Z]");
-        } else {
-          this.dataCollection.extent.temporal.interval[0][0] = null;
-        }
-      },
-    },
-    dateFinished: {
-      handler(newValue, oldValue) {
-        console.log(newValue);
-        if (newValue != "") {
-          this.dataCollection.extent.temporal.interval[0][1] = moment(newValue)
-            .utc()
-            .format("YYYY-MM-DDTHH:mm:ss[Z]");
-        } else {
-          this.dataCollection.extent.temporal.interval[0][1] = null;
-        }
-      },
-    },
-  },
-  methods: {
-    updateDate() {
-      this.dateStarted = moment
-        .utc(this.dataCollection.extent.temporal.interval[0][0])
-        .format("YYYY-MM-DD");
-      this.dateFinished = moment
-        .utc(this.dataCollection.extent.temporal.interval[0][1])
-        .format("YYYY-MM-DD");
-      console.log(this.dateStarted);
-    },
-    // keyword
-    removeKeyword(index) {
-      this.dataCollection.keywords.splice(index, 1);
-    },
-    addKeyword() {
-      this.dataCollection.keywords = this.dataCollection.keywords || [];
-      if (this.dataCollection.keywords.includes(this.keyword.trim())) {
-        this.$store.dispatch("notify", {
-          type: "error",
-          message: "Keyword already exists",
-        });
-        return;
-      }
-      if (this.keyword.trim() != "") {
-        this.dataCollection.keywords.push(this.keyword.trim());
-        this.keyword = "";
-      }
-    },
-    // Providers
-    addProviderDialog() {
-      this.$refs.providerDialog.open("Add Provider", undefined, undefined);
-    },
+  platforms.value = result.data.data
+}
 
-    updateProvider(index, provider) {
-      this.dataCollection.providers = this.dataCollection.providers || [];
-      if (
-        this.dataCollection.providers.some(
-          (element, i) => element.name === provider?.name && i !== index
-        )
-      ) {
-        this.$store.dispatch("notify", {
-          type: "error",
-          message: "Name already exists",
-        });
-        return;
-      }
-      if (index != undefined) {
-        this.dataCollection.providers[index] = provider;
-      } else {
-        this.dataCollection.providers.push(provider);
-      }
-      this.$refs.providerDialog.close();
-    },
-    updateProviderDialog(index, provider) {
-      this.$refs.providerDialog.open("Update Provider", index, provider);
-    },
-    removeProvider(index) {
-      this.dataCollection.providers.splice(index, 1);
-    },
-    //Extensions
-    removeExtension(index) {
-      this.dataCollection.stac_extensions.splice(index, 1);
-    },
-    //Assets
-    addAssetDialog() {
-      this.$refs.assetDialog.open("Add Asset", undefined, undefined);
-    },
-    updateAsset(name, asset) {
-      this.dataCollection.assets = this.dataCollection.assets || {};
-      if (this.dataCollection.assets && name in this.dataCollection.assets) {
-        this.$store.dispatch("notify", {
-          type: "error",
-          message: "Name already exists",
-        });
-        return;
-      } else {
-        this.dataCollection.assets[name] = asset;
-        this.$refs.assetDialog.close();
-      }
-    },
-    updateAssetDialog(asset) {
-      console.log(this.collectionAsset);
-      this.$refs.assetDialog.open("Update Asset", asset);
-    },
-    removeAsset(name) {
-      delete this.dataCollection.assets[name];
-    },
-    //Item Assets
-    addItemAssetDialog() {
-      this.$refs.itemAssetDialog.open("Add Item Asset", undefined, undefined);
-    },
-    removeItemAsset(name) {
-      delete this.dataCollection.item_assets[name];
-    },
-    updateItemAsset(name, item_asset) {
-      this.dataCollection.item_assets = this.dataCollection.item_asset || {};
-      if (name in this.dataCollection.item_assets) {
-        this.$store.dispatch("notify", {
-          type: "error",
-          message: "Name already exists",
-        });
-        return;
-      } else {
-        this.dataCollection.item_assets[name] = item_asset;
-        this.$refs.itemAssetDialog.close();
-      }
-    },
-    updateItemAssetDialog(item_asset) {
-      this.$refs.itemAssetDialog.open("Update Item Asset", item_asset);
-    },
-    async getPlatforms() {
-      const res = await CollectionApi.getPlatforms(null);
-      this.platforms = res.data;
-      console.log(this.platforms);
-    },
-    // Links
-    addLinkDialog() {
-      this.$refs.linkDialog.open("Add Link", undefined, undefined);
-    },
+onMounted(() => {
+  fetchPlatforms()
+})
 
-    updateLink(index, link) {
-      this.dataCollection.links = this.dataCollection.links || [];
-      if (
-        this.dataCollection.links.some(
-          (element, i) => element.rel === link.rel && i !== index
-        )
-      ) {
-        this.$store.dispatch("notify", {
-          type: "error",
-          message: "Rel already exists",
-        });
-        return;
+const itemAssets = computed(()=> {
+  const temp = props.data.item_assets
+  if (temp && Object.keys(temp).length > 0) {
+    return Object.keys(temp).map(key => {
+      const value = temp[key]
+        
+      return {
+        name: key,
+        ...value,
       }
-      if (index != undefined) {
-        this.dataCollection.links[index] = link;
-      } else {
-        this.dataCollection.links.push(link);
+    })
+  } else {
+    return []
+  }
+})
+
+const assets = computed(()=> {
+  const temp = props.data.assets
+  if (temp && Object.keys(temp).length > 0) {
+    return Object.keys(temp).map(key => {
+      const value = temp[key]
+        
+      return {
+        name: key,
+        ...value,
       }
-      this.$refs.linkDialog.close();
-    },
-    updateLinkDialog(index, link) {
-      this.$refs.linkDialog.open("Update Link", index, link);
-    },
-    removeLink(index) {
-      this.dataCollection.links.splice(index, 1);
-    },
+    })
+  } else {
+    return []
+  }
+})
+
+const startDate = ref(undefined)
+const endDate = ref(undefined)
+
+watch(() => {
+  if (props.data.extent && props.data.extent.temporal) {
+    const startDateMoment = moment(props.data.extent.temporal.interval[0][0])
+
+    startDate.value = startDateMoment.format("YYYY-MM-DDTHH:mm")
+
+    const endDateMoment = moment(props.data.extent.temporal.interval[0][1])
+
+    endDate.value = endDateMoment.format("YYYY-MM-DDTHH:mm")
+  } else {
+    startDate.value = undefined
+    endDate.value = undefined
+  }
+})
+
+watch(startDate, () => {
+  if (startDate.value) {
+    props.data.extent.temporal.interval[0][0] = moment(startDate.value).utc().format()
+  }
+})
+
+watch(endDate, () => {
+  if (endDate.value) {
+    props.data.extent.temporal.interval[0][1] = moment(endDate.value).utc().format()
+  }
+})
+
+
+// Extent
+const minX = ref(undefined)
+const minY = ref(undefined)
+const maxX = ref(undefined)
+const maxY = ref(undefined)
+
+watch(() => {
+  if (props.data.extent && props.data.extent.spatial) {
+    minX.value = props.data.extent.spatial.bbox[0][0]
+    minY.value = props.data.extent.spatial.bbox[0][1]
+    maxX.value = props.data.extent.spatial.bbox[0][2]
+    maxY.value = props.data.extent.spatial.bbox[0][3]
+  } else {
+    minX.value = undefined
+    minY.value = undefined
+    maxX.value = undefined
+    maxY.value = undefined
+  }
+})
+
+
+// Extension
+const extensions = ref([  
+  {
+    label: "item-assets",
+    value: "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
   },
-};
+  {
+    label: "eo",
+    value: "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+  },
+  {
+    label: "raster",
+    value: "https://stac-extensions.github.io/raster/v1.0.0/schema.json",
+  },
+  {
+    label: "view",
+    value: "https://stac-extensions.github.io/view/v1.0.0/schema.json",
+  },
+  {
+    label: "proj",
+    value: "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
+  },
+  {
+    label: "sar",
+    value: "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+  },
+  {
+    label: "sat",
+    value: "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+  },
+  {
+    label: "pointcloud",
+    value: "https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json",
+  },
+  {
+    label: "checksum",
+    value: "https://stac-extensions.github.io/checksum/v1.0.0/schema.json",
+  },
+  {
+    label: "datacube",
+    value: "https://stac-extensions.github.io/datacube/v1.0.0/schema.json",
+  },
+  {
+    label: "version",
+    value: "https://stac-extensions.github.io/version/v1.0.0/schema.json",
+  },
+  {
+    label: "label",
+    value: "https://stac-extensions.github.io/label/v1.0.0/schema.json",
+  },
+  {
+    label: "scientific",
+    value: "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+  },
+  {
+    label: "pointcloud",
+    value: "https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json",
+  },
+  {
+    label: "checksum",
+    value: "https://stac-extensions.github.io/checksum/v1.0.0/schema.json",
+  },
+  {
+    label: "datacube",
+    value: "https://stac-extensions.github.io/datacube/v1.0.0/schema.json",
+  },
+  {
+    label: "version",
+    value: "https://stac-extensions.github.io/version/v1.0.0/schema.json",
+  },
+  {
+    label: "label",
+    value: "https://stac-extensions.github.io/label/v1.0.0/schema.json",
+  },
+])
+
+
+// Links
+function addLinkDialog() {
+  linkDialog.value.open("Add Link", undefined, undefined)
+}
+function updateLink(index, link) {
+  props.data.links = props.data.links || []
+  if (
+    props.data.links.some(
+      (element, i) => element.rel === link.rel && i !== index,
+    )
+  ) {
+    store.dispatch("notify", {
+      type: "error",
+      message: "Rel already exists",
+    })
+    
+    return
+  }
+  if (index != undefined) {
+    props.data.links[index] = link
+  } else {
+    props.data.links.push(link)
+  }
+  linkDialog.value.close()
+}
+function updateLinkDialog(index, link) {
+  linkDialog.value.open("Update Link", index, link)
+}
+function removeLink(index) {
+  props.data.links.splice(index, 1)
+}
+
+// Keywords
+function removeKeyword(index) {
+  props.data.keywords.splice(index, 1)
+}
+
+// Providers
+function addProviderDialog() {
+  providerDialog.value.open("Add Provider", undefined, undefined)
+}
+
+function updateProvider(index, provider) {
+  props.data.providers =props.data.providers || []
+  if (
+    props.data.providers.some(
+      (element, i) => element.name === provider?.name && i !== index,
+    )
+  ) {
+    store.dispatch("notify", {
+      type: "error",
+      message: "Name already exists",
+    })
+    
+    return
+  }
+  if (index != undefined) {
+    props.data.providers[index] = provider
+  } else {
+    props.data.providers.push(provider)
+  }
+  providerDialog.value.close()
+}
+function updateProviderDialog(index, provider) {
+  providerDialog.value.open("Update Provider", index, provider)
+}
+function removeProvider(index) {
+  props.data.providers.splice(index, 1)
+}
+
+//Extensions
+function  removeExtension(index) {
+  props.data.stac_extensions.splice(index, 1)
+}
+
+//Assets
+function addAssetDialog() {
+  assetDialog.value.open("Add Asset", undefined, undefined)
+}
+function updateAsset(name, asset) {
+  props.data.assets = props.data.assets || {}
+  if (props.data.assets && name in props.data.assets) {
+    store.dispatch("notify", {
+      type: "error",
+      message: "Name already exists",
+    })
+  } else {
+    props.data.assets[name] = asset
+    assetDialog.value.close()
+  }
+}
+function updateAssetDialog(asset) {
+  assetDialog.value.open("Update Asset", asset)
+}
+function removeAsset(name) {
+  delete props.data.assets[name]
+}
+
+//Item Assets
+const hasItemAssetExt = computed(()=>{
+  return props.data.stac_extensions && props.data.stac_extensions.includes("https://stac-extensions.github.io/item-assets/v1.0.0/schema.json")
+})
+ 
+function addItemAssetDialog() {
+  itemAssetDialog.value.open("Add Item Asset", undefined, undefined)
+}
+function removeItemAsset(name) {
+  delete props.data.item_assets[name]
+}
+function updateItemAsset(name, item_asset) {
+  props.data.item_assets = props.data.item_asset || {}
+  if (name in props.data.item_assets) {
+    this.$store.dispatch("notify", {
+      type: "error",
+      message: "Name already exists",
+    })
+  } else {
+    props.data.item_assets[name] = item_asset
+    itemAssetDialog.value.close()
+  }
+
+  console.log(name, item_asset, props.data.item_assets)
+}
+function updateItemAssetDialog(item_asset) {
+  itemAssetDialog.value.open("Update Item Asset", item_asset)
+}
 </script>
 
 <style scoped>
@@ -875,8 +912,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* margin-left: 10px; */
-  /* margin-right: 10px; */
   margin: 8px 0;
   height: max-content;
 }
@@ -885,7 +920,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 8px;
 }
 
 .btnSave {
@@ -902,10 +936,18 @@ export default {
 .btn {
   cursor: pointer;
 }
-
+.bbox {
+  flex-wrap: wrap;
+}
 .bbox > * {
   flex: 1;
-  margin: 0 5px;
+  margin: 5px auto;
+  min-width: 45%;
+  max-width: 45%;
+}
+.temporal > * {
+  flex: 1;
+  margin: 5px;
 }
 
 .title {
@@ -914,5 +956,6 @@ export default {
 
 .extent-field-title {
   width: 80px !important;
+  justify-content: center;
 }
 </style>

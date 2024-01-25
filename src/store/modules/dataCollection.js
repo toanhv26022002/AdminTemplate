@@ -29,15 +29,16 @@ const state = () => ({
     },
     links: [],
   },
+
   // showEditor: true,
   // codeData: null
-});
+})
 
 const getters = {
   dataCollection(state) {
-    return state.dataCollection;
+    return state.dataCollection
   },
-};
+}
 
 const mutations = {
   resetForm(state) {
@@ -70,55 +71,54 @@ const mutations = {
         },
       },
       links: [],
-    };
+    }
   },
   ensureForm(state) {
     const requiredFields = [
-        'platform',
-        's3_meta',
-        'id',
-        'type',
-        'title',
-        'description',
-        'short_description',
-        'keywords',
-        'license',
-        'stac_extensions',
-        'stac_version',
-        'providers',
-        'assets',
-        'item_assets',
-        'extent',
-        'links'
-      ];
+      'platform',
+      's3_meta',
+      'id',
+      'type',
+      'title',
+      'description',
+      'short_description',
+      'keywords',
+      'license',
+      'stac_extensions',
+      'stac_version',
+      'providers',
+      'assets',
+      'item_assets',
+      'extent',
+      'links',
+    ]
     
-      // Duyệt qua từng trường
-      requiredFields.forEach(field => {
-        // Kiểm tra nếu trường không tồn tại hoặc là null, thêm nó vào đối tượng
-        if (!state.hasOwnProperty(field) || state[field] === null) {
-          state[field] = this.resetForm(field);
-        }
-      });
+    // Duyệt qua từng trường
+    requiredFields.forEach(field => {
+      // Kiểm tra nếu trường không tồn tại hoặc là null, thêm nó vào đối tượng
+      if (!state.hasOwnProperty(field) || state[field] === null) {
+        state[field] = this.resetForm(field)
+      }
+    })
     
-      return dataCollection;
+    return dataCollection
   },
-};
+}
 
 const actions = {
   btnChange({ state }, dataCollection) {
-    console.log(state.dataCollection);
-    state.dataCollection = dataCollection;
+    state.dataCollection = dataCollection
   },
   resetForm({ commit }) {
-    commit('resetForm');
+    commit('resetForm')
   },
-};
+}
 
 const dataCollection = {
   state,
   getters,
   mutations,
   actions,
-};
+}
 
-export default dataCollection;
+export default dataCollection

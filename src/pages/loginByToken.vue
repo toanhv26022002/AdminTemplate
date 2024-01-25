@@ -2,27 +2,27 @@
 </template>
 
 <script>
-import api from '@/api/Api';
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import api from '@/api/API'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   setup() {
-    const router = useRouter();
+    const router = useRouter()
+
     onMounted(() => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const tokenFromURL = urlParams.get('token');
+      const urlParams = new URLSearchParams(window.location.search)
+      const tokenFromURL = urlParams.get('token')
       if (tokenFromURL) {
-        api.setToken(JSON.parse(atob(tokenFromURL)).access_token);
-        window.history.replaceState({}, document.title, window.location.pathname);
-        console.log('okeoko');
-        router.push("/collections");
+        api.setToken(JSON.parse(atob(tokenFromURL)).access_token)
+        window.history.replaceState({}, document.title, window.location.pathname)
+        router.push("/collections")
       } else {
-        console.error('Token not found in the URL.');
+        console.error('Token not found in the URL.')
       }
-    });
-  }
-};
+    })
+  },
+}
 </script>
 
 <style scoped>
