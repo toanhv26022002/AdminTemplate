@@ -18,21 +18,20 @@
       </VBtn>
     </div>
   </div>
-  <div style="margin-top: 20px">
-    <Table
-      :headers="headers"
-      :items="items"
-      :loading="loading"
-      :total-page="totalPage"
-      @view-item="viewItem"
-      @next-page="nextPage"
-      @prev-page="prevPage"
-      @set-items-per-page="setItemsPerPage"
-      @change-page="changePage"
-      @edit-item="editItem"
-      @delete-item="deleteItem"
-    />
-  </div>
+  <Table
+    class="flex-grow-1 mt-5"
+    :headers="headers"
+    :items="items"
+    :loading="loading"
+    :total-page="totalPage"
+    @view-item="viewItem"
+    @next-page="nextPage"
+    @prev-page="prevPage"
+    @set-items-per-page="setItemsPerPage"
+    @change-page="changePage"
+    @edit-item="editItem"
+    @delete-item="deleteItem"
+  />
 </template>
 
 <script setup>

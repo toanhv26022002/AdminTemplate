@@ -182,4 +182,7 @@ defineExpose({ resetPagination })
 .v-data-table {
   text-wrap: nowrap;
 }
+/* .v-data-table .tbody::-webkit-scrollbar {
+  display: block;
+} */
 </style>

@@ -27,21 +27,20 @@
         </VBtn>
       </div>
     </div>
-    <div style="margin-top: 20px">
-      <TableView
-        ref="table"
-        :items="items"
-        :headers="headers"
-        :loading="loading"
-        :show-pagination="showPagination"
-        :total-page="totalPage"
-        :total-items="totalItems"
-        :total-visible="totalVisible"
-        @next-page="getNextPageItems"
-        @prev-page="getPrevPageItems"
-        @set-items-per-page="setItemsPerPage"
-      />
-    </div>
+    <TableView
+      class="mt-5 flex-grow-1"
+      ref="table"
+      :items="items"
+      :headers="headers"
+      :loading="loading"
+      :show-pagination="showPagination"
+      :total-page="totalPage"
+      :total-items="totalItems"
+      :total-visible="totalVisible"
+      @next-page="getNextPageItems"
+      @prev-page="getPrevPageItems"
+      @set-items-per-page="setItemsPerPage"
+    />
   </div>
 </template>
 
@@ -80,7 +79,7 @@ const initData = () => {
     { title: t("Instrument"), value: "instrument", sortable: false },
     { title: t("Product Type"), value: "product_type", sortable: false },
     { title: t("Acquired"), value: "acquired", sortable: false },
-    { title: t("Actions"), value: "actions", sortable: false, class: "text-end", align: "end" },
+    { title: t("Actions"), value: "actions", sortable: false, class: "text-end", align: "end", fixed: "right"},
   ]
 }
 
@@ -192,9 +191,11 @@ watch(itemsPerPage, () => {
 <style scoped>
 .item-container {
   position: relative;
-  padding: 0 32px;
+  padding: 0 32px 40px;
   /* width: calc(100%-70px); */
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

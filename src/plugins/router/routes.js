@@ -27,11 +27,11 @@ export const routes = [
             component: () => import('@/views/collections/collection-table.vue'),
           },
 
-          // {
-          //   path: 'add',
-          //   name: 'add',
-          //   component: () => import('@/views/collections/create-collection.vue'),
-          // },
+          {
+            path: 'add',
+            name: 'add',
+            component: () => import('@/views/collections/create-collection.vue'),
+          },
           // {
           //   path: ':collection/update',
           //   name: 'update',

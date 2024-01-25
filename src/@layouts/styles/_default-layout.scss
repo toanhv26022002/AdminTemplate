@@ -15,6 +15,7 @@ body {
   flex-grow: 1;
   padding-inline: 0;
   padding-top: 40px;
+  height: calc(100vh - 64px);
   // TODO: Use grid gutter variable here
   // padding-block: 1.5rem;
 }
