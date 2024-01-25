@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { defineEmits, ref, watch } from 'vue'
+import { defineEmits, ref, watch } from 'vue';
 
 const props = defineProps({
   headers: {
@@ -114,7 +114,7 @@ const emit = defineEmits([
 ])
 
 const currentPage = ref(1)
-const tableHeight = ref('75vh')
+const tableHeight = ref('100%')
 const itemsPerPage = ref(10)
 
 const viewItem = item => {

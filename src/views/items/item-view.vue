@@ -190,7 +190,5 @@ watch(itemsPerPage, () => {
 
 
 <style scoped>
-.item-container {
-  padding: 20px 32px;
-}
+
 </style>
