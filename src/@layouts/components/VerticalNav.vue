@@ -1,7 +1,7 @@
 <script setup>
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
-import { useDisplay } from 'vuetify'
-import logo from '@images/logo.svg?raw'
+import logo from '@images/logo.svg?raw';
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
+import { useDisplay } from 'vuetify';
 
 const props = defineProps({
   tag: {
@@ -61,6 +61,7 @@ const handleNavScroll = evt => {
           class="app-logo app-title-wrapper"
         >
           <div
+            style="width: 50px;"
             class="d-flex"
             v-html="logo"
           />

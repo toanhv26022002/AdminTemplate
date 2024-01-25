@@ -16,7 +16,7 @@ export default {
         api.setToken(JSON.parse(atob(tokenFromURL)).access_token);
         window.history.replaceState({}, document.title, window.location.pathname);
         console.log('okeoko');
-        router.push("/dashboard");
+        router.push("/collections");
       } else {
         console.error('Token not found in the URL.');
       }
