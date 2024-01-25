@@ -73,11 +73,21 @@
       </div>
     </template>
   </VDataTable>
+  <ConfirmDialog
+      :visible="isDeleteDialogVisible"
+      @cancel="handleCancelDelete"
+      @confirm="handleConfirmDelete"
+      title="Delete Confirmation"
+      content="Are you sure you want to delete"
+      okButtonText="Delete"
+      width="400"
+      color="error"
+    />
 </template>
 
 <script setup>
+import ConfirmDialog from '@layouts/components/confirm-dialog/ConfirmDialog.vue';
 import { defineEmits, ref, watch } from 'vue';
-
 const props = defineProps({
   headers: {
     type: Array,
@@ -115,8 +125,9 @@ const emit = defineEmits([
 
 const currentPage = ref(1)
 const tableHeight = ref('100%')
+const isDeleteDialogVisible = ref(false);
 const itemsPerPage = ref(10)
-
+const currentItem = ref(null);
 const viewItem = item => {
   emit('viewItem', item)
 }
@@ -133,14 +144,23 @@ const resetPagination = () => {
   currentPage.value = 1
 }
 
-const editItem = item => {
-  emit('editItem', item)
-}
+const editItem = (item) => {
+ 
+  emit("editItem", item);
+};
 
-const deleteItem = item => {
-  emit('deleteItem', item)
+const deleteItem = (item) => {
+  currentItem.value = item;
+  isDeleteDialogVisible.value = true;
+  
+};
+const handleCancelDelete = () => {
+  isDeleteDialogVisible.value = false;
 }
-
+const handleConfirmDelete = ()=>{
+  emit("deleteItem", currentItem.value);
+  isDeleteDialogVisible.value = false;
+}
 watch(itemsPerPage, newVal => {
   emit('setItemsPerPage', newVal)
 })
