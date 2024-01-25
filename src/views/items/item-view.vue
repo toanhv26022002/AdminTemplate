@@ -2,7 +2,7 @@
   <div class="item-container">
     <div class="d-flex align-center">
       <div class="d-flex w-75">
-        <div class="w-50 ma-2">
+        <div class="w-50 mr-2">
           <VSelect
             v-model="currentCollection"
             :items="collectionName"
@@ -12,7 +12,7 @@
             hide-details
           />
         </div>
-        <div class="w-50 ma-2">
+        <div class="w-50 ml-2">
           <VTextField
             v-model="search"
             :label="$t('Search items by ID')"
@@ -190,5 +190,11 @@ watch(itemsPerPage, () => {
 
 
 <style scoped>
-
+.item-container {
+  position: relative;
+  padding: 0 32px;
+  /* width: calc(100%-70px); */
+  width: 100%;
+  height: 100%;
+}
 </style>

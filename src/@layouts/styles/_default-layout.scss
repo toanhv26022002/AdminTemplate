@@ -13,9 +13,10 @@ body {
   @include mixins.boxed-content(true);
 
   flex-grow: 1;
-
+  padding-inline: 0;
+  padding-top: 40px;
   // TODO: Use grid gutter variable here
-  padding-block: 1.5rem;
+  // padding-block: 1.5rem;
 }
 
 .layout-footer {

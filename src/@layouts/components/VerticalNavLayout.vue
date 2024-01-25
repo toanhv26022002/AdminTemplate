@@ -87,7 +87,7 @@ export default defineComponent({
     min-block-size: 100dvh;
     transition: padding-inline-start 0.2s ease-in-out;
     will-change: padding-inline-start;
-
+    height: calc(100vh - 64px);
     @media screen and (min-width: 1280px) {
       padding-inline-start: variables.$layout-vertical-nav-width;
     }
@@ -162,14 +162,18 @@ export default defineComponent({
       overflow: hidden;
 
       .page-content-container {
-        inline-size: 100%;
         height: 100%;
+        inline-size: 100%;
         > :first-child {
           max-block-size: 100%;
           overflow-y: auto;
         }
       }
     }
+  }
+
+  .page-content-container {
+    height: 100%;
   }
 }
 </style>

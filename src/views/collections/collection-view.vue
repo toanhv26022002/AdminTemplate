@@ -7,7 +7,7 @@
 <style scoped>
 .collection-container {
   position: relative;
-  /* padding: 20px 32px; */
+  padding: 0 32px;
   /* width: calc(100%-70px); */
   width: 100%;
   height: 100%;
