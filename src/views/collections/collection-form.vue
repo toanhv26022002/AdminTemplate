@@ -544,7 +544,7 @@
 <script setup>
 import { defineExpose, defineProps, ref } from 'vue'
 import { useStore } from 'vuex'
-import AssetDialog from "./dialog/asset-dialog.v  ue"
+import AssetDialog from "./dialog/asset-dialog.vue"
 import ItemAssetDialog from "./dialog/item-asset-dialog.vue"
 import LinkDialog from "./dialog/link-dialog.vue"
 
