@@ -7,17 +7,19 @@
     class="overflow-x-auto"
     fixed-header
   >
-    <template #headers>
+    <!--
+      <template #headers>
       <tr>
-        <th
-          v-for="header in headers"
-          :key="header.id"
-          :class="{ 'text-end': header.align === 'end' }"
-        >
-          {{ $t(header.title) }}
-        </th>
+      <th
+      v-for="header in headers"
+      :key="header.id"
+      :class="{ 'text-end': header.align === 'end' }"
+      >
+      {{ $t(header.title) }}
+      </th>
       </tr>
-    </template>
+      </template> 
+    -->
     <template #item.actions="{ item }">
       <div class="text-end">
         <VIcon

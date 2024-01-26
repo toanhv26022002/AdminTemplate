@@ -28,8 +28,8 @@
       </div>
     </div>
     <TableView
-      class="mt-5 flex-grow-1"
       ref="table"
+      class="mt-5 flex-grow-1"
       :items="items"
       :headers="headers"
       :loading="loading"
@@ -79,7 +79,7 @@ const initData = () => {
     { title: t("Instrument"), value: "instrument", sortable: false },
     { title: t("Product Type"), value: "product_type", sortable: false },
     { title: t("Acquired"), value: "acquired", sortable: false },
-    { title: t("Actions"), value: "actions", sortable: false, class: "text-end", align: "end", fixed: "right"},
+    { title: t("Actions"), value: "actions", sortable: false, class: "text-end", align: "end", fixed: true },
   ]
 }
 

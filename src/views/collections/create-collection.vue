@@ -32,8 +32,8 @@
       default-language="json"
     />
     <CollectionForm
-      ref="collectionForm1"
       v-else
+      ref="collectionForm"
       :data="data"
     />
   </VCard>
@@ -51,13 +51,13 @@
 </template>
 
 <script setup>
-import CollectionApi from "@/api/CollectionApi";
-import ConfirmDialog from "@/components/confirm-dialog/ConfirmDialog.vue";
-import { ref } from 'vue';
-import { useRouter } from "vue-router";
-import { useTheme } from 'vuetify';
-import { useStore } from "vuex";
-import CollectionForm from "./collection-form.vue";
+import CollectionApi from "@/api/CollectionApi"
+import ConfirmDialog from "@/components/confirm-dialog/ConfirmDialog.vue"
+import { ref } from 'vue'
+import { useRouter } from "vue-router"
+import { useTheme } from 'vuetify'
+import { useStore } from "vuex"
+import CollectionForm from "./collection-form.vue"
 
 const options = {
   automaticLayout: true,
@@ -67,10 +67,11 @@ const options = {
 
 const showEditor = ref(false)
 const isDialogConfirm = ref(false)
-const collectionForm1 = ref(null)
+const collectionForm = ref(null)
 const theme = useTheme()
 const store = useStore()
 const router = useRouter()
+
 const data = ref({
   platform: null,
   s3_meta: {
@@ -78,6 +79,8 @@ const data = ref({
     access_key: null,
     secret_key: null,
     bucket: null,
+    https: true,
+    virtual_hosting: false,
   },
   id: null,
   type: "Collection",
@@ -261,8 +264,7 @@ const handleCancel = () => {
 
 
 const save = () => {
-  console.log(collectionForm1.value);
-  collectionForm1.value.test()
+  collectionForm.value.validate()
   if (!validate()) {
     return
   }

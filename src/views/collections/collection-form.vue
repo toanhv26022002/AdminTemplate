@@ -1,5 +1,8 @@
 <template>
-  <VForm ref="form" class="column">
+  <VForm
+    ref="form"
+    class="column"
+  >
     <!-- aws endpoint, access key, secretkey, bucket -->
     <div class="field-container">
       <!-- Platform -->
@@ -22,9 +25,71 @@
       <VTextField
         v-model="props.data.s3_meta.endpoint"
         class="row"
-        label="Aws Endpoint"
+        label="S3 Endpoint"
         variant="outlined"
         :disabled="isUpdate"
+      >
+        <template #append-inner>
+          <VTooltip location="bottom">
+            <template #activator="{ props }">
+              <VIcon
+                class="btn"
+                v-bind="props"
+                icon="ri-question-line"
+              />
+            </template>
+          </VTooltip>
+        </template>
+      </VTextField>
+      <div class="d-flex flex-row flex-wrap">
+        <!-- S3 HTTPS -->
+        <VCheckbox
+          v-model="props.data.s3_meta.https"
+          label="S3 HTTPS"
+          :disabled="isUpdate"
+        >
+          <template #append>
+            <VTooltip location="bottom">
+              <template #activator="{ props }">
+                <VIcon
+                  class="btn"
+                  v-bind="props"
+                  icon="ri-question-line"
+                />
+              </template>
+              If your S3 endpoint supports HTTPS, you can enable it here.
+            </VTooltip>
+          </template>
+        </VCheckbox>
+        <VSpacer />
+        <!-- S3 Virtual Hosting -->
+        <VCheckbox
+          v-model="props.data.s3_meta.virtual_hosting"
+          class="d-flex flex-row mr-4"
+          label="S3 Virtual Hosting"
+          :disabled="isUpdate"
+        >
+          <template #append>
+            <VTooltip location="bottom">
+              <template #activator="{ props }">
+                <VIcon
+                  class="btn"
+                  v-bind="props"
+                  icon="ri-question-line"
+                />
+              </template>
+              If your S3 endpoint supports virtual hosting, you can enable it here.
+            </VTooltip>
+          </template>
+        </VCheckbox>
+      </div>
+      <!-- bucket -->
+      <VTextField
+        v-model="props.data.s3_meta.bucket"
+        class="row"
+        label="Bucket"
+        :disabled="isUpdate"
+        variant="outlined"
       >
         <template #append-inner>
           <VTooltip location="bottom">
@@ -65,27 +130,6 @@
         v-model="props.data.s3_meta.secret_key"
         class="row"
         label="Secret Key"
-        :disabled="isUpdate"
-        variant="outlined"
-      >
-        <template #append-inner>
-          <VTooltip location="bottom">
-            <template #activator="{ props }">
-              <VIcon
-                class="btn"
-                v-bind="props"
-                icon="ri-question-line"
-              />
-            </template>
-            <!-- Enter a title for your dataset. -->
-          </VTooltip>
-        </template>
-      </VTextField>
-      <!-- bucket -->
-      <VTextField
-        v-model="props.data.s3_meta.bucket"
-        class="row"
-        label="Bucket"
         :disabled="isUpdate"
         variant="outlined"
       >
@@ -489,20 +533,6 @@
                   Temporal
                 </div>
                 <div class="d-flex flex-column temporal w-100">
-                  <!--
-                    <VTextField
-                    v-model="dateStarted"
-                    type="date"
-                    label="Start Date"
-                    variant="outlined"
-                    />
-                    <VTextField
-                    v-model="dateFinished"
-                    type="date"
-                    label="End Date"
-                    variant="outlined"
-                    /> 
-                  -->
                   <VTextField
                     v-model="startDate"
                     type="datetime-local"
@@ -773,9 +803,9 @@ function updateLink(index, link) {
     )
   ) {
     store.dispatch("notify", {
-        type: "success",
-        message: "Update success!",
-    });
+      type: "success",
+      message: "Update success!",
+    })
     
     return
   }
@@ -885,19 +915,20 @@ function updateItemAsset(name, item_asset) {
 function updateItemAssetDialog(item_asset) {
   itemAssetDialog.value.open("Update Item Asset", item_asset)
 }
-const test = () => {
+
+const validate = () => {
   form.value.validate()
 }
 
 onMounted(() => {
-  console.log(form.value);
+  console.log(form.value)
+
   // form.value.validate()
 })
 
 defineExpose({
-  test
+  validate,
 })
-
 </script>
 
 <style scoped>
@@ -969,5 +1000,12 @@ defineExpose({
 .extent-field-title {
   width: 80px !important;
   justify-content: center;
+}
+
+:deep(.v-checkbox .v-input__append){
+  margin-left: 5px !important;
+}
+:deep(.v-checkbox .v-label){
+  text-wrap: nowrap;
 }
 </style>
