@@ -39,23 +39,26 @@
   </VCard>
   
   <ConfirmDialog
+    ref="confirmDialog"
     :visible="isDialogConfirm"
     title="Confirm"
-    content="Do you want to create this collection?"
+    content="Do you want to update this collection?"
     ok-button-text="OK"
     width="400"
     color="primary"
     @cancel="handleCancel"
     @confirm="handleConfirm"
+    @visible-changed="handleDialogVisibilityChange"
   />
 </template>
 
 <script setup>
 import CollectionApi from "@/api/CollectionApi"
 import ConfirmDialog from "@/components/confirm-dialog/ConfirmDialog.vue"
-import { inject, ref } from 'vue'
-import { useRoute } from "vue-router"
+import { ref } from 'vue'
+import { useRoute, useRouter } from "vue-router"
 import { useTheme } from 'vuetify'
+import { useStore } from "vuex"
 import CollectionForm from "./collection-form.vue"
 
 
@@ -67,10 +70,11 @@ const options = {
 
 const showEditor = ref(false)
 const isDialogConfirm = ref(false)
-const themeEditor = ref('light')
+const confirmDialog = ref(null)
 const theme = useTheme()
-const store = inject('store')
+const store = useStore()
 const route = useRoute()
+const router = useRouter()
 
 const fetchCollection = async () => {
   try {
@@ -137,9 +141,9 @@ const data = ref({
 
 const codeData = ref(JSON.stringify(data.value, null, 2))
 
-watch(theme.global.name.value, (newValue, oldValue) => {
-  themeEditor.value = newValue.global.name.value === 'light' ? 'vs-light' : 'vs-dark'
-}, { deep: true })
+const themeEditor = computed(() => {
+  return theme.global.name.value === 'light' ? 'vs-light' : 'vs-dark'
+})
 
 watch(showEditor, (newValue, oldValue) => {
   if (newValue) {
@@ -211,7 +215,7 @@ const validate = () => {
 
   if (
     data.value.id &&
-        rules.nospecial_expect(data.value.id.trim()) != true
+        rules.noSpecialExpect(data.value.id.trim()) != true
   ) {
     store.dispatch("notify", {
       type: "error",
@@ -222,7 +226,7 @@ const validate = () => {
   }
   if (
     data.value.id &&
-        rules.nospaces(data.value.id.trim()) != true
+        rules.noSpaces(data.value.id.trim()) != true
   ) {
     store.dispatch("notify", {
       type: "error",
@@ -245,17 +249,21 @@ const validate = () => {
 
   return true
 }
-
+const handleDialogVisibilityChange = (val) => {
+  isDialogConfirm.value = val
+}
 const handleConfirm = async () => {
   try {
-    const response = await CollectionApi.createCollection(data.value)
+    confirmDialog.value.setLoading(true)
 
-    this.$router.back()
-    isDialogConfirm.value = false
+    const response = await CollectionApi.updateCollection(data.value.id, data.value)
+
     store.dispatch("notify", {
       type: "success",
       message: response.data.message,
     })
+    
+    router.back()
   } catch (error) {
     if (error.response && error.response.status === 400) {
       const errorMessage = error.response.data?.error
@@ -270,6 +278,9 @@ const handleConfirm = async () => {
         message: "An error occurred while creating the collection",
       })
     }
+  } finally {
+    confirmDialog.value.setLoading(false)
+    handleDialogVisibilityChange(false)
   }
 }
 

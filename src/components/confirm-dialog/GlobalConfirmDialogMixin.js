@@ -1,6 +1,6 @@
 // GlobalConfirmDialogMixin.js
-import { ref, onMounted, getCurrentInstance } from 'vue';
 import ConfirmDialog from "@/components/confirm-dialog/ConfirmDialog.vue";
+import { getCurrentInstance, onMounted, ref } from 'vue';
 
 const confirmDialog = ref({
   props: {},

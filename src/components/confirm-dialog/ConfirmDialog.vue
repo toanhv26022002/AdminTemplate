@@ -13,13 +13,11 @@
       <v-divider></v-divider>
 
       <v-card-actions class="btn-container">
-        <v-btn style="flex:1" text @click="onCancel">
+        <v-btn style="flex:1" text @click="onCancel" :disabled="loading">
           {{ $t("Cancel") }}
         </v-btn>
 
-       
-
-        <v-btn style="flex:1" :color="color" @click="onConfirm">
+        <v-btn style="flex:1" :color="color" @click="onConfirm" :loading="loading" :disabled="loading">
           {{ $t(okButtonText) }}
         </v-btn>
       </v-card-actions>
@@ -36,6 +34,12 @@ export default {
     okButtonText: { type: String, default: "Delete" },
     width: { type: [Number, String], default: 300 },
     color: { type: String, default: "error" }
+  },
+
+  data() {
+    return {
+      loading: false
+    };
   },
 
   computed: {
@@ -58,6 +62,13 @@ export default {
     onConfirm() {
       this.$emit("confirm");
       this.dialogVisible = false;
+      this.$nextTick(() => {
+        console.log(1, this.dialogVisible);
+      })
+    },
+
+    setLoading(val) {
+      this.loading = val;
     }
   }
 };

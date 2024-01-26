@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <VForm ref="form" class="column">
     <!-- aws endpoint, access key, secretkey, bucket -->
     <div class="field-container">
       <!-- Platform -->
@@ -522,7 +522,7 @@
         </VCard>
       </div>
     </div>
-  </div>
+  </VForm>
   <ProviderDialog
     ref="providerDialog"
     @submit="updateProvider"
@@ -542,8 +542,9 @@
 </template>
 
 <script setup>
-import { defineProps, inject, ref } from 'vue'
-import AssetDialog from "./dialog/asset-dialog.vue"
+import { defineExpose, defineProps, ref } from 'vue'
+import { useStore } from 'vuex'
+import AssetDialog from "./dialog/asset-dialog.v  ue"
 import ItemAssetDialog from "./dialog/item-asset-dialog.vue"
 import LinkDialog from "./dialog/link-dialog.vue"
 
@@ -564,13 +565,13 @@ const props = defineProps({
 
 const platforms = ref([])
 
-const store = inject('store')
+const store = useStore()
 const keyword = ref('')
 const linkDialog = ref(null)
 const providerDialog = ref(null)
 const assetDialog = ref(null)
 const itemAssetDialog = ref(null)
-
+const form = ref(null)
 
 
 const rules = {
@@ -772,9 +773,9 @@ function updateLink(index, link) {
     )
   ) {
     store.dispatch("notify", {
-      type: "error",
-      message: "Rel already exists",
-    })
+        type: "success",
+        message: "Update success!",
+    });
     
     return
   }
@@ -880,12 +881,23 @@ function updateItemAsset(name, item_asset) {
     props.data.item_assets[name] = item_asset
     itemAssetDialog.value.close()
   }
-
-  console.log(name, item_asset, props.data.item_assets)
 }
 function updateItemAssetDialog(item_asset) {
   itemAssetDialog.value.open("Update Item Asset", item_asset)
 }
+const test = () => {
+  form.value.validate()
+}
+
+onMounted(() => {
+  console.log(form.value);
+  // form.value.validate()
+})
+
+defineExpose({
+  test
+})
+
 </script>
 
 <style scoped>

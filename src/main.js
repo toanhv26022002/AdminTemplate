@@ -7,6 +7,10 @@ import '@core/scss/template/index.scss'
 import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor'
 import '@layouts/styles/index.scss'
 import store from './store'
+// Notification
+import { initNotification } from "@/components/notification"
+initNotification(store);
+
 // i18n - change language
 import i18n from '@/plugins/i18n/i18n'
 

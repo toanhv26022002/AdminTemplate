@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="d-flex flex-row align-center">
-      <VIcon @click="$router.back()">
+      <VIcon @click="router.back()">
         ri-corner-up-left-line
       </VIcon>
       <h1>{{ $t("Create Collection") }}</h1>
@@ -32,6 +32,7 @@
       default-language="json"
     />
     <CollectionForm
+      ref="collectionForm1"
       v-else
       :data="data"
     />
@@ -50,11 +51,13 @@
 </template>
 
 <script setup>
-import CollectionApi from "@/api/CollectionApi"
-import ConfirmDialog from "@/components/confirm-dialog/ConfirmDialog.vue"
-import { inject, ref } from 'vue'
-import { useTheme } from 'vuetify'
-import CollectionForm from "./collection-form.vue"
+import CollectionApi from "@/api/CollectionApi";
+import ConfirmDialog from "@/components/confirm-dialog/ConfirmDialog.vue";
+import { ref } from 'vue';
+import { useRouter } from "vue-router";
+import { useTheme } from 'vuetify';
+import { useStore } from "vuex";
+import CollectionForm from "./collection-form.vue";
 
 const options = {
   automaticLayout: true,
@@ -64,10 +67,10 @@ const options = {
 
 const showEditor = ref(false)
 const isDialogConfirm = ref(false)
-const themeEditor = ref('light')
+const collectionForm1 = ref(null)
 const theme = useTheme()
-const store = inject("store")
-
+const store = useStore()
+const router = useRouter()
 const data = ref({
   platform: null,
   s3_meta: {
@@ -100,9 +103,25 @@ const data = ref({
 
 const codeData = ref(JSON.stringify(data.value, null, 2))
 
-watch(theme.global.name.value, (newValue, oldValue) => {
-  themeEditor.value = newValue.global.name.value === 'light' ? 'vs-light' : 'vs-dark'
-}, { deep: true })
+const rules = {
+  required: value => !!value || (value && value.length > 0) || "Required.",
+  max255: value =>
+    value === null ||
+        (typeof value === "string" && value.length <= 255) ||
+        value === "" ||
+        "Max 255 characters",
+  noSpaces: value => (value && !value.includes(" ")) || "No spaces",
+  noSpecial: value =>
+    (value && !/[^a-zA-Z0-9]/.test(value)) || " No special characters",
+  noSpecialExpect: value =>
+    /^[a-zA-Z0-9.\-_+]+$/.test(value) || "No special characters except .-+_",
+  X: value => (value <= 180 && value >= -180) || "X should be in range [-180,180]",
+  Y: value => (value <= 90 && value >= -90) || "Y should be in range [-90,90]",
+}
+
+const themeEditor = computed(() => {
+  return theme.global.name.value === 'light' ? 'vs-light' : 'vs-dark'
+})
 
 watch(showEditor, (newValue, oldValue) => {
   if (newValue) {
@@ -213,7 +232,7 @@ const handleConfirm = async () => {
   try {
     const response = await CollectionApi.createCollection(data.value)
 
-    this.$router.back()
+    router.back()
     isDialogConfirm.value = false
     store.dispatch("notify", {
       type: "success",
@@ -240,7 +259,10 @@ const handleCancel = () => {
   isDialogConfirm.value = false
 }
 
+
 const save = () => {
+  console.log(collectionForm1.value);
+  collectionForm1.value.test()
   if (!validate()) {
     return
   }
