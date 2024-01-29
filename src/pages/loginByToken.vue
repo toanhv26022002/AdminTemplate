@@ -2,7 +2,7 @@
 </template>
 
 <script>
-import api from '@/api/API'
+import api from '@/api/Api'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 

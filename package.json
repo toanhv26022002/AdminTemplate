@@ -7,9 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 5050",
-    "lint": "eslint . -c .eslintrc.cjs --fix --ext .ts,.js,.cjs,.vue,.tsx,.jsx",
-    "build:icons": "tsx src/plugins/iconify/build-icons.js",
-    "postinstall": "npm run build:icons"
+    "lint": "eslint . -c .eslintrc.cjs --fix --ext .ts,.js,.cjs,.vue,.tsx,.jsx"
   },
   "dependencies": {
     "@floating-ui/dom": "1.5.3",
@@ -20,6 +18,7 @@
     "apexcharts": "3.37.0",
     "axios": "^1.6.5",
     "eslint-import-resolver-custom-alias": "^1.3.2",
+    "lodash": "^4.17.21",
     "mapbox-gl": "^3.1.0",
     "moment": "^2.30.1",
     "pinia": "^2.1.7",
