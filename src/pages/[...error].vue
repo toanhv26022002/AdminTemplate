@@ -1,13 +1,6 @@
 <script setup>
-import { goToLogin, logout } from '@/plugins/middleware/auth';
-import miscMaskDark from '@images/pages/misc-mask-dark.png';
-import miscMaskLight from '@images/pages/misc-mask-light.png';
-import { useTheme } from 'vuetify';
-const vuetifyTheme = useTheme()
+import { goToLogin, logout } from '@/plugins/middleware/auth'
 
-const authThemeMask = computed(() => {
-  return vuetifyTheme.global.name.value === 'light' ? miscMaskLight : miscMaskDark
-})
 const loginAgain = async () => {
   await logout()
   goToLogin()
@@ -18,43 +11,62 @@ const goToEofactory = () => {
 </script>
 
 <template>
-  <div class="misc-wrapper">
+  <div class="page-403-container">
     <ErrorHeader
       status-code="403"
       title="Access Denied ⚠️"
       description="You do not have permission to access this resource"
     />
 
-    <!-- 👉 Image -->
-
     <div class="btn-container">
-      <VBtn
+      <v-btn
+        class="custom-btn"
         @click="loginAgain"
-        class="mt-10 w-80"
+        ><span class="font-bold">{{ $t('loginAgain') }}</span></v-btn
       >
-        Use another account
-      </VBtn>
-      <VBtn
+      <v-spacer style="width: 40px"></v-spacer>
+      <v-btn
+        class="custom-btn"
         @click="goToEofactory"
-        class="mt-10 w-80"
+        ><span class="font-bold">{{ $t('goToEofactory') }}</span></v-btn
       >
-        Go to Eofactory
-      </VBtn>
     </div>
   </div>
 </template>
-
-<style lang="scss">
-@use '@core/scss/pages/misc.scss';
-
-.misc-footer-tree {
-  inline-size: 15.625rem;
-  inset-block-end: 3.5rem;
-  inset-inline-start: 0.375rem;
+<style scoped>
+.page-403-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
+
 .btn-container {
   display: flex;
-  justify-content: space-between;
-  width: 400px;
+  flex-direction: row;
+}
+
+.custom-btn {
+  display: flex;
+  align-items: center;
+  background-color: red;
+  margin-right: 10px;
+  color: white;
+  padding: 25px;
+  font-weight: bold !important;
+  width: 200px;
+}
+
+.warning {
+  display: flex;
+  flex-direction: column;
+  font-size: 30px;
+  align-items: center;
+  padding-bottom: 40px;
+  color: black;
+}
+.font-bold {
+  font-weight: bold;
 }
 </style>

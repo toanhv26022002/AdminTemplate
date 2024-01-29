@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="dialogVisible" persistent width="500">
+  <v-dialog
+    v-model="dialogVisible"
+    persistent
+    width="500"
+  >
     <v-card>
       <v-form @submit.prevent>
         <v-card-title class="text-h5 grey lighten-2">
@@ -7,12 +11,14 @@
         </v-card-title>
         <v-card-text>
           <v-text-field
+            class="mb-2"
             v-model="provider.name"
             label="Name"
             variant="outlined"
             :rules="[rules.required, rules.max255]"
           />
           <v-text-field
+            class="mb-2"
             label="URL"
             :rules="[rules.required, rules.max255, rules.href]"
             v-model="provider.url"
@@ -58,8 +64,19 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="close"> Cancel </v-btn>
-          <v-btn color="primary" type="submit" text @click="submit">
+          <v-btn
+            color="primary"
+            text
+            @click="close"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            type="submit"
+            text
+            @click="submit"
+          >
             Submit
           </v-btn>
         </v-card-actions>
@@ -68,86 +85,79 @@
   </v-dialog>
 </template>
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 export default {
   data() {
     return {
       // open: true,
       dialogVisible: false,
-      title: "Provider",
+      title: 'Provider',
       provider: {
-        name: "",
+        name: '',
         url: [],
         roles: [],
       },
       role: null,
       index: undefined,
-      roles: ["licensor", "producer", "processor", "host"],
+      roles: ['licensor', 'producer', 'processor', 'host'],
       rules: {
-        required: (value) =>
-          !!value || (value && value.length > 0) || "Required.",
-        max255: (value) =>
-          value === null ||
-          (typeof value === "string" && value.length <= 255) ||
-          value === "" ||
-          "Max 255 characters",
-        href: (value) =>
-          /^(https?:\/\/)?([\da-zA-Z.-]+)\.([a-zA-Z.]{2,6})([/\w.-]*)*\/?$/.test(
-            value
-          ) || "Invalid link",
+        required: value => !!value || (value && value.length > 0) || 'Required.',
+        max255: value =>
+          value === null || (typeof value === 'string' && value.length <= 255) || value === '' || 'Max 255 characters',
+        href: value => /^(https?:\/\/)?([\da-zA-Z.-]+)\.([a-zA-Z.]{2,6})([/\w.-]*)*\/?$/.test(value) || 'Invalid link',
       },
-    };
+    }
   },
   methods: {
     open(title, index, provider) {
-      this.dialogVisible = true;
+      this.dialogVisible = true
       this.$nextTick(() => {
-        this.title = title;
-        this.index = index;
-        console.log(provider);
+        this.title = title
+        this.index = index
+        console.log(provider)
         if (provider) {
-          this.provider = _.cloneDeep(provider);
+          this.provider = _.cloneDeep(provider)
         }
-      });
+      })
     },
 
     submit() {
       if (!this.validate()) {
-        return;
+        return
       }
-      this.provider.roles = this.role;
-      console.log("provider: ", this.provider);
-      this.$emit("submit", this.index, this.provider);
+      this.provider.roles = this.role
+      console.log('provider: ', this.provider)
+      this.$emit('submit', this.index, this.provider)
     },
     updateRoles(value) {
-      this.role = value;
+      this.role = value
     },
     validate() {
-      if (this.provider.name.trim() == "") {
-        return false;
+      if (this.provider.name.trim() == '') {
+        return false
       } else if (this.rules.max255(this.provider.name.trim()) != true) {
-        return false;
+        return false
       }
-      return true;
+      return true
     },
     close() {
-      this.resetForm();
-      this.dialogVisible = false;
+      this.resetForm()
+      this.dialogVisible = false
     },
 
     removeRole(index) {
-      console.log(index);
-      this.role.splice(index, 1);
+      console.log(index)
+      this.role.splice(index, 1)
     },
 
     resetForm() {
       this.provider = {
-        name: "",
-        url: "",
+        name: '',
+        url: '',
         roles: [],
-      };
-      this.role = null;
+      }
+      this.role = null
     },
   },
-};
+}
 </script>
