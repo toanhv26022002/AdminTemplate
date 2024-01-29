@@ -12,6 +12,7 @@
           </VCardTitle>
           <VCardText>
             <VTextField
+              class="mb-2"
               v-model="name"
               :rules="[rules.required, rules.max255]"
               label="Name"
@@ -19,17 +20,20 @@
               :disabled="isUpdate"
             />
             <VTextField
+              class="mb-2"
               v-model="asset.title"
               variant="outlined"
               label="Title"
             />
             <VSelect
+              class="mb-2"
               v-model="asset.type"
               :items="types"
               variant="outlined"
               label="Type"
             />
             <VTextField
+              class="mb-2"
               v-model="asset.href"
               variant="outlined"
               label="Href"
@@ -95,37 +99,32 @@
 </template>
 
 <script>
-import _ from "lodash"
+import _ from 'lodash'
 
 export default {
   data() {
     return {
       dialogVisible: false,
-      title: "Asset",
+      title: 'Asset',
       asset: {
-        title: "",
-        type: "",
-        href: "",
+        title: '',
+        type: '',
+        href: '',
         roles: [],
       },
       role: null,
-      name: "",
-      types: ["image/png", "application/x-parquet", "application/vnd+zarr"],
-      roles: ["thumbnail", "overview", "data", "metadata"],
+      name: '',
+      types: ['image/png', 'application/x-parquet', 'application/vnd+zarr'],
+      roles: ['thumbnail', 'overview', 'data', 'metadata'],
       isUpdate: false,
       rules: {
-        required: value => (!!value || (value && value.length>0 )) || "Required.",
+        required: value => !!value || (value && value.length > 0) || 'Required.',
         max255: value =>
-          (value === null || (typeof value === 'string' && value.length <= 255) || value === "") ||
-        "Max 255 characters",
-        nospaces: value => (value && !value.includes(" ")) || "No spaces",
-        nospecial: value => (value && !/[^a-zA-Z0-9]/.test(value)) || " No special characters",
-        nospecial_expect: value =>
-          /^[a-zA-Z0-9.\-_+]+$/.test(value) || "No special characters except .-+_",
-        href: value =>
-          /^(https?:\/\/)?([\da-zA-Z.-]+)\.([a-zA-Z.]{2,6})([/\w.-]*)*\/?$/.test(value) ||
-          "Invalid link",
-
+          value === null || (typeof value === 'string' && value.length <= 255) || value === '' || 'Max 255 characters',
+        nospaces: value => (value && !value.includes(' ')) || 'No spaces',
+        nospecial: value => (value && !/[^a-zA-Z0-9]/.test(value)) || ' No special characters',
+        nospecial_expect: value => /^[a-zA-Z0-9.\-_+]+$/.test(value) || 'No special characters except .-+_',
+        href: value => /^(https?:\/\/)?([\da-zA-Z.-]+)\.([a-zA-Z.]{2,6})([/\w.-]*)*\/?$/.test(value) || 'Invalid link',
       },
     }
   },
@@ -145,36 +144,29 @@ export default {
     submit() {
       if (!this.validate()) {
         return
-      }
-      else {
+      } else {
         this.asset.roles = this.role
-        this.$emit("submit", this.name, this.asset)
+        this.$emit('submit', this.name, this.asset)
       }
-
     },
     updateRoles(value) {
       this.role = value
     },
     validate() {
-      if (this.rules.required(this.name.trim())!=true) {
-       
+      if (this.rules.required(this.name.trim()) != true) {
         return false
       }
-      if (this.rules.max255(this.name.trim())!=true) {
-       
-        return false
-      }
-
-      if (this.rules.required(this.asset.href.trim())!=true) {
-        
+      if (this.rules.max255(this.name.trim()) != true) {
         return false
       }
 
-      if (this.rules.href(this.asset.href.trim())!=true) {
-        
+      if (this.rules.required(this.asset.href.trim()) != true) {
         return false
       }
 
+      if (this.rules.href(this.asset.href.trim()) != true) {
+        return false
+      }
 
       return true
     },
@@ -190,12 +182,12 @@ export default {
 
     resetForm() {
       this.asset = {
-        title: "",
-        type: "",
-        href: "",
+        title: '',
+        type: '',
+        href: '',
         roles: [],
       }
-      this.name = ""
+      this.name = ''
       this.isUpdate = undefined
       this.role = null
     },

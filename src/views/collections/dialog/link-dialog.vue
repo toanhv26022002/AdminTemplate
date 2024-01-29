@@ -10,12 +10,14 @@
       </VCardTitle>
       <VCardText>
         <VTextField
+          class="mb-2"
           v-model="link.href"
           label="Href"
           variant="outlined"
           :rules="[rules.required, rules.href]"
         />
         <VSelect
+          class="mb-2"
           v-model="link.rel"
           :items="rels"
           label="Rel"
@@ -59,31 +61,21 @@ export default {
     return {
       // open: true,
       dialogVisible: false,
-      title: "Link",
+      title: 'Link',
       link: {
-        href: "",
+        href: '',
         rel: [],
         type: [],
-
       },
       rel: null,
       index: undefined,
-      types: [
-        "application/geo+json",
-        "application/json",
-      ],
-      rels: [
-        "self", "root", "parent", "child", "items", "license", "derived_from",
-      ],
+      types: ['application/geo+json', 'application/json'],
+      rels: ['self', 'root', 'parent', 'child', 'items', 'license', 'derived_from'],
       rules: {
-        required: value => (!!value || (value && value.length > 0)) || "Required.",
+        required: value => !!value || (value && value.length > 0) || 'Required.',
         max255: value =>
-          (value === null || (typeof value === 'string' && value.length <= 255) || value === "") ||
-                  "Max 255 characters",
-        href: value =>
-          /^(https?:\/\/)?([\da-zA-Z.-]+)\.([a-zA-Z.]{2,6})([/\w.-]*)*\/?$/.test(value) ||
-                  "Invalid link",
-
+          value === null || (typeof value === 'string' && value.length <= 255) || value === '' || 'Max 255 characters',
+        href: value => /^(https?:\/\/)?([\da-zA-Z.-]+)\.([a-zA-Z.]{2,6})([/\w.-]*)*\/?$/.test(value) || 'Invalid link',
       },
     }
   },
@@ -104,23 +96,22 @@ export default {
         return
       }
       this.link.roles = this.role
-      this.$emit("submit", this.index, this.link)
+      this.$emit('submit', this.index, this.link)
     },
     updateRoles(value) {
       this.role = value
     },
     validate() {
-      if (this.link.href.trim() == "") {
+      if (this.link.href.trim() == '') {
         return false
       }
-      if (this.link.rel && this.link.rel == "") {
+      if (this.link.rel && this.link.rel == '') {
         return false
       }
       if (this.link.title && this.rules.max255(this.link.title.trim()) != true) {
         return false
       }
       if (this.rules.required(this.link.href.trim()) != true) {
-
         return false
       }
 
@@ -145,8 +136,8 @@ export default {
 
     resetForm() {
       this.link = {
-        name: "",
-        url: "",
+        name: '',
+        url: '',
         roles: [],
       }
       this.role = null

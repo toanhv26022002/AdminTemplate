@@ -166,8 +166,8 @@
                 icon="ri-question-line"
               />
             </template>
-            Enter ID for your dataset. Spaces and special characters are not allowed. We
-            recommend an all lowercase, underscore seperated string.
+            Enter ID for your dataset. Spaces and special characters are not allowed. We recommend an all lowercase,
+            underscore seperated string.
           </VTooltip>
         </template>
       </VTextField>
@@ -281,8 +281,7 @@
                 icon="ri-question-line"
               />
             </template>
-            Enter a product license for your dataset. Spaces and special characters are
-            not allowed.
+            Enter a product license for your dataset. Spaces and special characters are not allowed.
           </VTooltip>
         </template>
       </VTextField>
@@ -302,8 +301,8 @@
                 icon="ri-question-line"
               />
             </template>
-            Enter a short description for your dataset. Max 255 characters. Spaces,
-            special characters, etc. are all allowed.
+            Enter a short description for your dataset. Max 255 characters. Spaces, special characters, etc. are all
+            allowed.
           </VTooltip>
         </template>
       </VTextField>
@@ -326,8 +325,7 @@
                 icon="ri-question-line"
               />
             </template>
-            Enter a description for your dataset. Spaces, special characters, etc. are all
-            allowed.
+            Enter a description for your dataset. Spaces, special characters, etc. are all allowed.
           </VTooltip>
         </template>
       </VTextarea>
@@ -484,14 +482,10 @@
           class="row-card"
         >
           <VCardText>
-            <VCardTitle class="title">
-              Extent
-            </VCardTitle>
+            <VCardTitle class="title"> Extent </VCardTitle>
             <VCardText>
               <div class="d-flex flex-row">
-                <div class="extent-field-title">
-                  Spatial bbox
-                </div>
+                <div class="extent-field-title">Spatial bbox</div>
                 <div class="d-flex flex-row bbox w-100">
                   <VTextField
                     v-model="minX"
@@ -529,22 +523,20 @@
             <!-- // -->
             <VCardText>
               <div class="d-flex flex-row">
-                <div class="extent-field-title">
-                  Temporal
-                </div>
+                <div class="extent-field-title">Temporal</div>
                 <div class="d-flex flex-column temporal w-100">
                   <VTextField
                     v-model="startDate"
                     type="datetime-local"
                     label="Start Date"
                     variant="outlined"
-                  /> 
+                  />
                   <VTextField
                     v-model="endDate"
                     type="datetime-local"
                     label="End Date"
                     variant="outlined"
-                  />  
+                  />
                 </div>
               </div>
             </VCardText>
@@ -574,9 +566,9 @@
 <script setup>
 import { defineExpose, defineProps, ref } from 'vue'
 import { useStore } from 'vuex'
-import AssetDialog from "./dialog/asset-dialog.vue"
-import ItemAssetDialog from "./dialog/item-asset-dialog.vue"
-import LinkDialog from "./dialog/link-dialog.vue"
+import AssetDialog from './dialog/asset-dialog.vue'
+import ItemAssetDialog from './dialog/item-asset-dialog.vue'
+import LinkDialog from './dialog/link-dialog.vue'
 
 import CollectionApi from '@/api/CollectionApi'
 import moment from 'moment'
@@ -603,21 +595,15 @@ const assetDialog = ref(null)
 const itemAssetDialog = ref(null)
 const form = ref(null)
 
-
 const rules = {
-  required: value => !!value || (value && value.length > 0) || "Required.",
+  required: value => !!value || (value && value.length > 0) || 'Required.',
   max255: value =>
-    value === null ||
-        (typeof value === "string" && value.length <= 255) ||
-        value === "" ||
-        "Max 255 characters",
-  noSpaces: value => (value && !value.includes(" ")) || "No spaces",
-  noSpecial: value =>
-    (value && !/[^a-zA-Z0-9]/.test(value)) || " No special characters",
-  noSpecialExpect: value =>
-    /^[a-zA-Z0-9.\-_+]+$/.test(value) || "No special characters except .-+_",
-  X: value => (value <= 180 && value >= -180) || "X should be in range [-180,180]",
-  Y: value => (value <= 90 && value >= -90) || "Y should be in range [-90,90]",
+    value === null || (typeof value === 'string' && value.length <= 255) || value === '' || 'Max 255 characters',
+  noSpaces: value => (value && !value.includes(' ')) || 'No spaces',
+  noSpecial: value => (value && !/[^a-zA-Z0-9]/.test(value)) || ' No special characters',
+  noSpecialExpect: value => /^[a-zA-Z0-9.\-_+]+$/.test(value) || 'No special characters except .-+_',
+  X: value => (value <= 180 && value >= -180) || 'X should be in range [-180,180]',
+  Y: value => (value <= 90 && value >= -90) || 'Y should be in range [-90,90]',
 }
 
 const fetchPlatforms = async () => {
@@ -630,12 +616,12 @@ onMounted(() => {
   fetchPlatforms()
 })
 
-const itemAssets = computed(()=> {
+const itemAssets = computed(() => {
   const temp = props.data.item_assets
   if (temp && Object.keys(temp).length > 0) {
     return Object.keys(temp).map(key => {
       const value = temp[key]
-        
+
       return {
         name: key,
         ...value,
@@ -646,12 +632,12 @@ const itemAssets = computed(()=> {
   }
 })
 
-const assets = computed(()=> {
+const assets = computed(() => {
   const temp = props.data.assets
   if (temp && Object.keys(temp).length > 0) {
     return Object.keys(temp).map(key => {
       const value = temp[key]
-        
+
       return {
         name: key,
         ...value,
@@ -669,11 +655,11 @@ watch(() => {
   if (props.data.extent && props.data.extent.temporal) {
     const startDateMoment = moment(props.data.extent.temporal.interval[0][0])
 
-    startDate.value = startDateMoment.format("YYYY-MM-DDTHH:mm")
+    startDate.value = startDateMoment.format('YYYY-MM-DDTHH:mm')
 
     const endDateMoment = moment(props.data.extent.temporal.interval[0][1])
 
-    endDate.value = endDateMoment.format("YYYY-MM-DDTHH:mm")
+    endDate.value = endDateMoment.format('YYYY-MM-DDTHH:mm')
   } else {
     startDate.value = undefined
     endDate.value = undefined
@@ -691,7 +677,6 @@ watch(endDate, () => {
     props.data.extent.temporal.interval[0][1] = moment(endDate.value).utc().format()
   }
 })
-
 
 // Extent
 const minX = ref(undefined)
@@ -713,100 +698,94 @@ watch(() => {
   }
 })
 
-
 // Extension
-const extensions = ref([  
+const extensions = ref([
   {
-    label: "item-assets",
-    value: "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+    label: 'item-assets',
+    value: 'https://stac-extensions.github.io/item-assets/v1.0.0/schema.json',
   },
   {
-    label: "eo",
-    value: "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+    label: 'eo',
+    value: 'https://stac-extensions.github.io/eo/v1.1.0/schema.json',
   },
   {
-    label: "raster",
-    value: "https://stac-extensions.github.io/raster/v1.0.0/schema.json",
+    label: 'raster',
+    value: 'https://stac-extensions.github.io/raster/v1.0.0/schema.json',
   },
   {
-    label: "view",
-    value: "https://stac-extensions.github.io/view/v1.0.0/schema.json",
+    label: 'view',
+    value: 'https://stac-extensions.github.io/view/v1.0.0/schema.json',
   },
   {
-    label: "proj",
-    value: "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
+    label: 'proj',
+    value: 'https://stac-extensions.github.io/projection/v1.0.0/schema.json',
   },
   {
-    label: "sar",
-    value: "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+    label: 'sar',
+    value: 'https://stac-extensions.github.io/sar/v1.0.0/schema.json',
   },
   {
-    label: "sat",
-    value: "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+    label: 'sat',
+    value: 'https://stac-extensions.github.io/sat/v1.0.0/schema.json',
   },
   {
-    label: "pointcloud",
-    value: "https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json",
+    label: 'pointcloud',
+    value: 'https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json',
   },
   {
-    label: "checksum",
-    value: "https://stac-extensions.github.io/checksum/v1.0.0/schema.json",
+    label: 'checksum',
+    value: 'https://stac-extensions.github.io/checksum/v1.0.0/schema.json',
   },
   {
-    label: "datacube",
-    value: "https://stac-extensions.github.io/datacube/v1.0.0/schema.json",
+    label: 'datacube',
+    value: 'https://stac-extensions.github.io/datacube/v1.0.0/schema.json',
   },
   {
-    label: "version",
-    value: "https://stac-extensions.github.io/version/v1.0.0/schema.json",
+    label: 'version',
+    value: 'https://stac-extensions.github.io/version/v1.0.0/schema.json',
   },
   {
-    label: "label",
-    value: "https://stac-extensions.github.io/label/v1.0.0/schema.json",
+    label: 'label',
+    value: 'https://stac-extensions.github.io/label/v1.0.0/schema.json',
   },
   {
-    label: "scientific",
-    value: "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    label: 'scientific',
+    value: 'https://stac-extensions.github.io/scientific/v1.0.0/schema.json',
   },
   {
-    label: "pointcloud",
-    value: "https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json",
+    label: 'pointcloud',
+    value: 'https://stac-extensions.github.io/pointcloud/v1.0.0/schema.json',
   },
   {
-    label: "checksum",
-    value: "https://stac-extensions.github.io/checksum/v1.0.0/schema.json",
+    label: 'checksum',
+    value: 'https://stac-extensions.github.io/checksum/v1.0.0/schema.json',
   },
   {
-    label: "datacube",
-    value: "https://stac-extensions.github.io/datacube/v1.0.0/schema.json",
+    label: 'datacube',
+    value: 'https://stac-extensions.github.io/datacube/v1.0.0/schema.json',
   },
   {
-    label: "version",
-    value: "https://stac-extensions.github.io/version/v1.0.0/schema.json",
+    label: 'version',
+    value: 'https://stac-extensions.github.io/version/v1.0.0/schema.json',
   },
   {
-    label: "label",
-    value: "https://stac-extensions.github.io/label/v1.0.0/schema.json",
+    label: 'label',
+    value: 'https://stac-extensions.github.io/label/v1.0.0/schema.json',
   },
 ])
 
-
 // Links
 function addLinkDialog() {
-  linkDialog.value.open("Add Link", undefined, undefined)
+  linkDialog.value.open('Add Link', undefined, undefined)
 }
 function updateLink(index, link) {
   props.data.links = props.data.links || []
-  if (
-    props.data.links.some(
-      (element, i) => element.rel === link.rel && i !== index,
-    )
-  ) {
-    store.dispatch("notify", {
-      type: "success",
-      message: "Update success!",
+  if (props.data.links.some((element, i) => element.rel === link.rel && i !== index)) {
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'Update success!',
     })
-    
+
     return
   }
   if (index != undefined) {
@@ -817,7 +796,7 @@ function updateLink(index, link) {
   linkDialog.value.close()
 }
 function updateLinkDialog(index, link) {
-  linkDialog.value.open("Update Link", index, link)
+  linkDialog.value.open('Update Link', index, link)
 }
 function removeLink(index) {
   props.data.links.splice(index, 1)
@@ -830,21 +809,17 @@ function removeKeyword(index) {
 
 // Providers
 function addProviderDialog() {
-  providerDialog.value.open("Add Provider", undefined, undefined)
+  providerDialog.value.open('Add Provider', undefined, undefined)
 }
 
 function updateProvider(index, provider) {
-  props.data.providers =props.data.providers || []
-  if (
-    props.data.providers.some(
-      (element, i) => element.name === provider?.name && i !== index,
-    )
-  ) {
-    store.dispatch("notify", {
-      type: "error",
-      message: "Name already exists",
+  props.data.providers = props.data.providers || []
+  if (props.data.providers.some((element, i) => element.name === provider?.name && i !== index)) {
+    store.dispatch('notify', {
+      type: 'error',
+      message: 'Name already exists',
     })
-    
+
     return
   }
   if (index != undefined) {
@@ -855,27 +830,27 @@ function updateProvider(index, provider) {
   providerDialog.value.close()
 }
 function updateProviderDialog(index, provider) {
-  providerDialog.value.open("Update Provider", index, provider)
+  providerDialog.value.open('Update Provider', index, provider)
 }
 function removeProvider(index) {
   props.data.providers.splice(index, 1)
 }
 
 //Extensions
-function  removeExtension(index) {
+function removeExtension(index) {
   props.data.stac_extensions.splice(index, 1)
 }
 
 //Assets
 function addAssetDialog() {
-  assetDialog.value.open("Add Asset", undefined, undefined)
+  assetDialog.value.open('Add Asset', undefined, undefined)
 }
 function updateAsset(name, asset) {
   props.data.assets = props.data.assets || {}
   if (props.data.assets && name in props.data.assets) {
-    store.dispatch("notify", {
-      type: "error",
-      message: "Name already exists",
+    store.dispatch('notify', {
+      type: 'error',
+      message: 'Name already exists',
     })
   } else {
     props.data.assets[name] = asset
@@ -883,19 +858,22 @@ function updateAsset(name, asset) {
   }
 }
 function updateAssetDialog(asset) {
-  assetDialog.value.open("Update Asset", asset)
+  assetDialog.value.open('Update Asset', asset)
 }
 function removeAsset(name) {
   delete props.data.assets[name]
 }
 
 //Item Assets
-const hasItemAssetExt = computed(()=>{
-  return props.data.stac_extensions && props.data.stac_extensions.includes("https://stac-extensions.github.io/item-assets/v1.0.0/schema.json")
+const hasItemAssetExt = computed(() => {
+  return (
+    props.data.stac_extensions &&
+    props.data.stac_extensions.includes('https://stac-extensions.github.io/item-assets/v1.0.0/schema.json')
+  )
 })
- 
+
 function addItemAssetDialog() {
-  itemAssetDialog.value.open("Add Item Asset", undefined, undefined)
+  itemAssetDialog.value.open('Add Item Asset', undefined, undefined)
 }
 function removeItemAsset(name) {
   delete props.data.item_assets[name]
@@ -903,9 +881,9 @@ function removeItemAsset(name) {
 function updateItemAsset(name, item_asset) {
   props.data.item_assets = props.data.item_asset || {}
   if (name in props.data.item_assets) {
-    this.$store.dispatch("notify", {
-      type: "error",
-      message: "Name already exists",
+    this.$store.dispatch('notify', {
+      type: 'error',
+      message: 'Name already exists',
     })
   } else {
     props.data.item_assets[name] = item_asset
@@ -913,7 +891,7 @@ function updateItemAsset(name, item_asset) {
   }
 }
 function updateItemAssetDialog(item_asset) {
-  itemAssetDialog.value.open("Update Item Asset", item_asset)
+  itemAssetDialog.value.open('Update Item Asset', item_asset)
 }
 
 const validate = () => {
@@ -1002,10 +980,10 @@ defineExpose({
   justify-content: center;
 }
 
-:deep(.v-checkbox .v-input__append){
+:deep(.v-checkbox .v-input__append) {
   margin-left: 5px !important;
 }
-:deep(.v-checkbox .v-label){
+:deep(.v-checkbox .v-label) {
   text-wrap: nowrap;
 }
 </style>
