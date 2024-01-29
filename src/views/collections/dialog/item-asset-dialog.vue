@@ -1,125 +1,87 @@
 <template>
-  <div class="text-center">
+  <div class="dialog-container">
     <v-dialog
       v-model="dialogVisible"
       persistent
-      width="500"
+      class="dialog-container"
+      width="1000px"
     >
       <v-card>
         <v-form @submit.prevent>
           <v-card-title class="text-h5 grey lighten-2">
             {{ title }}
           </v-card-title>
-          <v-card-text>
-            <v-text-field
-              class="mb-2"
-              v-model="name"
-              label="Name"
-              :disabled="isUpdate"
-              variant="outlined"
-              :rules="[rules.required, rules.max255]"
-            />
-            <v-text-field
-              class="mb-2"
-              v-model="itemAsset.title"
-              label="Title"
-              variant="outlined"
-              :rules="[rules.max255]"
-            />
-            <v-select
-              class="mb-2"
-              v-model="itemAsset.type"
-              :items="types"
-              label="Type"
-              variant="outlined"
-            />
-            <!-- <v-select v-model="itemAsset['eo:bands']" :items="eoBands" item-text="name" label="EO Bands" chips multiple
-           variant="outlined">
-            <template v-slot:selection="{ item, index }">
-              <v-chip @click:close="removeEOBand(index)" close>
-                <span>{{ item.name }}</span>
-              </v-chip>
-            </template>
-          </v-select> -->
-            <!-- Raster Bands -->
-            <v-combobox
-              class="row"
-              v-model="itemAsset['raster:bands']"
-              :items="items"
-              label="Raster Bands"
-              variant="outlined"
-              multiple
-              chips
-              :closable-chips="true"
-              :hint="`${itemAsset['raster:bands']}`"
-              v-if="hasRasterExt"
-            >
-              <template v-slot:chip="data">
-                <v-chip
-                  :key="data.index"
-                  v-bind="data"
-                  :model-value="data"
-                  size="small"
-                  closable
-                  @click="updateRasterBandDialog(data.index, data.item.raw)"
-                  class="btn"
-                  @click:close="removeRasterBand(index)"
-                  :label="true"
-                >
-                  nodata: {{ data.item.raw.nodata }}, data_type: {{ data.item.raw.data_type }}, spatial_resolution:
-                  {{ data.item.raw.spatial_resolution }}
-                </v-chip>
-              </template>
-              <template v-slot:append-inner>
-                <v-tooltip location="bottom">
-                  <template v-slot:activator="{ props }">
-                    <v-icon
-                      class="btn"
-                      @click="addRasterBandDialog()"
-                      v-bind="props"
-                      icon="mdi-plus"
-                    ></v-icon>
-                  </template>
-                </v-tooltip>
-              </template>
-            </v-combobox>
+          <div class="d-flex flex-row">
+            <v-card-text class="card-text">
+              <v-text-field
+                v-model="name"
+                label="Name"
+                :disabled="isUpdate"
+                variant="outlined"
+                class="mb-3 mt-3"
+                :rules="[rules.required, rules.max255]"
+                @keyup.enter="this.$refs.title.focus()"
+              />
+              <v-text-field
+                v-model="itemAsset.title"
+                label="Title"
+                variant="outlined"
+                class="mb-3"
+                :rules="[rules.max255]"
+                @keyup.enter="this.$refs.type.focus()"
+                ref="title"
+              />
+              <v-select
+                v-model="itemAsset.type"
+                :items="types"
+                label="Type"
+                class="mb-3"
+                variant="outlined"
+                @keyup.enter="this.$refs.roles.focus()"
+                ref="type"
+              />
 
-            <!-- Role -->
-            <v-combobox
-              v-model="itemAsset.roles"
-              :items="roles"
-              label="Roles"
-              variant="outlined"
-              multiple
-              class="row"
-            >
-              <template v-slot:chip="data">
-                <v-chip
-                  v-if="data.item.title"
-                  :key="JSON.stringify(data.item)"
-                  v-bind="data.attrs"
-                  :disabled="data.disabled"
-                  size="small"
-                  @update:model-value="updateRoles"
-                  @click:close="removeRole(data.index)"
-                  :label="true"
-                  closable
-                >
-                </v-chip>
-              </template>
-              <template v-slot:append-inner>
-                <v-tooltip location="bottom">
-                  <template v-slot:activator="{ props }">
-                    <v-icon
-                      v-bind="props"
-                      icon="mdi-help-circle-outline"
-                    ></v-icon>
-                  </template>
-                  <!-- List of keywords describing the Collection. -->
-                </v-tooltip>
-              </template>
-            </v-combobox>
-          </v-card-text>
+              <!-- Role -->
+              <v-combobox
+                v-model="itemAsset.roles"
+                :items="roles"
+                label="Roles"
+                variant="outlined"
+                multiple
+                ref="roles"
+              >
+                <template v-slot:chip="data">
+                  <v-chip
+                    v-if="data.item.title"
+                    :key="JSON.stringify(data.item)"
+                    v-bind="data.attrs"
+                    :disabled="data.disabled"
+                    size="small"
+                    @update:model-value="updateRoles"
+                    @click:close="removeRole(data.index)"
+                    :label="true"
+                    closable
+                  >
+                  </v-chip>
+                </template>
+              </v-combobox>
+              <input
+                type="checkbox"
+                v-model="isAddOptions"
+              />
+              Additional properties
+            </v-card-text>
+
+            <div v-show="isAddOptions">
+              <VueMonacoEditor
+                class="my-editor"
+                v-model="codeData"
+                :highlight="highlighter"
+                :style="{ background: editorBackground }"
+                :line-numbers="lineNumbers"
+              ></VueMonacoEditor>
+            </div>
+          </div>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -179,6 +141,8 @@ export default {
       roles: ['thumbnail', 'overview', 'data', 'metadata'],
       eoBands: [],
       isUpdate: false,
+      isAddOptions: true,
+      codeData: null,
     }
   },
   created() {
@@ -279,3 +243,20 @@ export default {
   },
 }
 </script>
+<style scoped>
+.my-editor {
+  display: flex;
+  margin: 10px;
+  background: #2d2d2d;
+  color: #ccc;
+  height: 500px !important;
+  width: 500px !important;
+  font-family: Fira data, Fira Mono, Consolas, Menlo, Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 5px;
+}
+.dialog-container {
+  display: flex;
+}
+</style>
