@@ -1,0 +1,8 @@
+version: '3.4'
+services:
+  rolodex-fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9753:80
