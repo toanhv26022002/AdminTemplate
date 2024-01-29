@@ -45,6 +45,11 @@ export const routes = [
         component: () => import('@/views/items/item-view.vue'),
       },
       {
+        path: 'platforms',
+        name: 'platforms',
+        component: () => import('@/views/platforms/platform-view.vue'),
+      },
+      {
         
           path: 'map',
           name: 'map',

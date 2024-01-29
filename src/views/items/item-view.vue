@@ -96,7 +96,7 @@ const fetchItems = async params => {
         id: feature.id,
         instrument: feature.properties.instruments.join(", "),
         product_type: feature.properties["sar:product_type"],
-        acquired: moment(feature.properties["start_datetime"]).format('MMMM Do YYYY, h:mm:ss a'),
+        acquired: moment(feature.properties["start_datetime"]).format('DD/MM/YYYY, h:mm:ss a'),
       }
 
       items.value.push(item)
@@ -191,11 +191,11 @@ watch(itemsPerPage, () => {
 <style scoped>
 .item-container {
   position: relative;
-  padding: 0 32px 40px;
-  /* width: calc(100%-70px); */
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  block-size: 100%;
+  inline-size: 100%;
+  padding-block: 0 40px;
+  padding-inline: 32px;
 }
 </style>

@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm i pnpm --global
 RUN pnpm i
 COPY ./ .
-RUN npm run build
+RUN pnpm run build
 
 FROM nginx as production-stage
 RUN mkdir /app
