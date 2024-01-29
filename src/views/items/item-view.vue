@@ -191,11 +191,11 @@ watch(itemsPerPage, () => {
 <style scoped>
 .item-container {
   position: relative;
-  padding: 0 32px 40px;
-  /* width: calc(100%-70px); */
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  block-size: 100%;
+  inline-size: 100%;
+  padding-block: 0 40px;
+  padding-inline: 32px;
 }
 </style>

@@ -6,7 +6,6 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
 <template>
   <!-- 👉 Dashboards -->
 
-
   <!-- 👉 Front Pages -->
 
   <!-- 👉 Apps & Pages -->
@@ -19,7 +18,7 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
   <VerticalNavLink
     :item="{
       title: 'Collections',
-      icon: 'ri-folder-image-line',
+      icon: 'ri-folders-line',
       to: '/collections',
     }"
   />
@@ -27,8 +26,16 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
   <VerticalNavLink
     :item="{
       title: 'Items',
-      icon: 'ri-file-image-line',
+      icon: 'ri-image-line',
       to: '/items',
+    }"
+  />
+
+  <VerticalNavLink
+    :item="{
+      title: 'Platforms',
+      to: '/platforms',
+      icon:'ri-radar-line',
     }"
   />
 
@@ -41,6 +48,4 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
   />
 
   <!-- 👉 Apps & Pages -->
- 
- 
 </template>

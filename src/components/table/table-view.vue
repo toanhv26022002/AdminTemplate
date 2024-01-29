@@ -6,6 +6,7 @@
     items-per-page="-1"
     class="overflow-x-auto"
     fixed-header
+    :loading="loading"
   >
     <!--
       <template #headers>
@@ -57,22 +58,24 @@
           :total-visible="totalVisible"
           @next="next"
           @prev="prev"
+          :show-first-last-page="false"
         />
         <div class="d-flex h-100 justify-end align-center">
-          <p style="margin-left: 10px">
+          <div style="margin-inline-start: 10px">
             Items per page:
-          </p>
+          </div>
           <div>
             <VSelect
               v-model="itemsPerPage"
               variant="outlined"
               density="compact"
-              style="width: 100px; margin-left: 10px"
+              class="per-page"
+              style="inline-size: 100px; margin-inline-start: 10px;"
               :items="[10, 20, 50, 100]"
               hide-details
             />
           </div>
-          <p style="margin: 0 10px">
+          <p style="margin-block: 0;margin-inline: 10px">
             Total: {{ totalItems }}
           </p>
         </div>
@@ -116,6 +119,10 @@ const props = defineProps({
   totalVisible: {
     type: Number,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const emit = defineEmits([
@@ -191,8 +198,8 @@ defineExpose({ resetPagination })
 }
 
 .v-data-table {
-  text-wrap: nowrap;
-  margin-top: 20px;
   flex-grow: 1;
+  margin-block-start: 20px;
+  text-wrap: nowrap;
 }
 </style>
