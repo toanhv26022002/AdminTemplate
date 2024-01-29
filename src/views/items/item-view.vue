@@ -96,7 +96,7 @@ const fetchItems = async params => {
         id: feature.id,
         instrument: feature.properties.instruments.join(", "),
         product_type: feature.properties["sar:product_type"],
-        acquired: moment(feature.properties["start_datetime"]).format('MMMM Do YYYY, h:mm:ss a'),
+        acquired: moment(feature.properties["start_datetime"]).format('DD/MM/YYYY, h:mm:ss a'),
       }
 
       items.value.push(item)

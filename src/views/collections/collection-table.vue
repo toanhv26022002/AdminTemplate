@@ -85,10 +85,10 @@ const getItems = async () => {
 
   result.data.forEach(collection => {
     collection.created_at = moment(collection.created_at).format(
-      "MMMM Do YYYY, h:mm:ss a",
+      "DD/MM/YYYY, h:mm:ss a",
     )
     collection.updated_at = moment(collection.updated_at).format(
-      "MMMM Do YYYY, h:mm:ss a",
+      "DD/MM/YYYY, h:mm:ss a",
     )
   })
   totalPage.value = result.totalPage
